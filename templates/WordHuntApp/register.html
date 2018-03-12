@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<title>WordHunt</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<!-- bootstrap CDN obtained from w3schools.com -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	<!-- MODIFICATIONS TO THE GRID -->
+		<style>
+			.col-xs-0-2 {width: 2%;}
+			.col-xs-3-8 {width: 33.333%;}
+		</style>
+
+	</head>
+
+	<body style="font-family: Verdana, Helvetica, sans-serif;">
+		<div class="container-fluid">
+			<font size=6>Register</font>
+			<br>
+			
+			<p>Create an account to comment on pictures and upload your own to start playing!</p>
+			<br>
+
+			<center>
+				<form id="userForm" method="post" enctype="multipart/form-data">
+					<input type="text" name="username" value="Username" data-toggle="tooltip" data-placement="right" title="Username must be at least 3 characters long"/></br>
+					<input type="password" name="password" value="Password" data-toggle="tooltip" data-placement="right" title="Password must be at least 5 characters long"/></br>
+					<button type="button" class="btn tbn-success">Register</button>
+				</form>
+			</center>
+
+			<a href="MAINPAGE">Return to the main page</a> 
+
+		</div>
+	</body>
+</html>

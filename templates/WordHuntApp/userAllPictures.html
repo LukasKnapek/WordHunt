@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<title>WordHunt</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<!-- bootstrap CDN obtained from w3schools.com -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	<!-- MODIFICATIONS TO THE GRID -->
+		<style>
+			.col-xs-0-2 {width: 2%;}
+			.col-xs-3-8 {width: 33.333%;}
+		</style>
+
+	</head>
+
+	<body style="font-family: Verdana, Helvetica, sans-serif;">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-xs-2"><font size=6>Profile</font></div>
+				<div class="col-xs-10">
+					<span style="float: right; margin-right: 5%">
+						<ul class="nav nav-tabs">
+							<li><a href="userMain">Stats</a></li>
+							<li><a href="userCurrent">Current Word</a></li>
+							<li class="active"><a href="userAllImages">Uploaded Images</a></li>
+							<li><a href="userSettings">Profile Settings</a></li>
+						</ul>
+					</span>
+				</div>
+			</div>
+			<table class="table" style="width: 100%; height: 480px">
+				<tr>
+					<td> PICTURE 1 <br> <center>WORD 1</center> </td>
+					<td> PICTURE 2 <br> <center>WORD 2</center> </td>
+					<td> PICTURE 3 <br> <center>WORD 3</center> </td>
+					<td> PICTURE 4 <br> <center>WORD 4</center> </td>
+				</tr>
+				<tr>
+					<td> PICTURE 5 <br> <center>WORD 5</center> </td>
+					<td> PICTURE 6 <br> <center>WORD 6</center> </td>
+					<td> PICTURE 7 <br> <center>WORD 7</center> </td>
+					<td> PICTURE 8 <br> <center>WORD 8</center> </td>
+				</tr>
+				<tr>
+					<td> PICTURE 9 <br> <center>WORD 9</center> </td>
+					<td> PICTURE 10 <br> <center>WORD 10</center> </td>
+					<td> PICTURE 11 <br> <center>WORD 11</center> </td>
+					<td> PICTURE 12 <br> <center>WORD 12</center> </td>
+				</tr>
+			</table>
+
+		<!-- USING AJAX(?). First check if there is more than 12 pictures. If yes create a pagination button and when clicked reload pictures starting from the next group-->
+			
+			<center>
+				<ul class="pagination">
+					<li><a href="PART 1">1</a></li>
+					<li><a href="PART 2">2</a></li>
+					<li><a href="PART 3">3</a></li>
+					<li><a href="PART 4">4</a></li>
+					<li><a href="PART 5">5</a></li>
+				</ul>			
+			</center>
+
+		</div>
+	</body>
+</html>
