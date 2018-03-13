@@ -15,7 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from WordHuntApp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+	url(r'^$',views.main, name='main'),
+	url(r'^about/$',views.about, name='about'),
+	url(r'^past/$',views.past, name='past'),
+	url(r'^leaderboard/$',views.leaderboard, name='leaderboard'),
+	url(r'^search/$',views.search, name='search'),
+	url(r'^profile/stats/$',views.stats, name='stats'),
+	url(r'^profile/current/$',views.current, name='current'),
+	url(r'^profile/uploads/$',views.uploads, name='uploads'),
+	url(r'^profile/settings/$',views.settings, name='settings')
 ]
