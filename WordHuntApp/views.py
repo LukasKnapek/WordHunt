@@ -41,7 +41,7 @@ def stats(request):
 	response = render(request, 'WordHuntApp/userMain.html')
 	return response
 	
-def stats(request):
+def current(request):
 	response = render(request, 'WordHuntApp/userCurrent.html')
 	return response
 
@@ -52,3 +52,4 @@ def settings(request):
 def uploads(request):
 	response = render(request, 'WordHuntApp/userAllPictures.html')
 	return response
+	
