@@ -1,4 +1,4 @@
-import os, sys, datetime
+import os, sys, datetime, pytz
 import django
 
 
@@ -18,8 +18,8 @@ def populate():
     # Create the word and the competition related to that word
     word = Word.objects.get_or_create(text="Flag")[0]
     cmp = Competition.objects.get_or_create(word=word,
-                                            start_date=datetime.datetime(2018,2,12,10,0,0),
-                                            end_date=datetime.datetime(2018,2,12,20,0,0),
+                                            start_date=datetime.datetime(2018,2,12,10,0,0, pytz.utc),
+                                            end_date=datetime.datetime(2018,2,12,20,0,0, pytz.utc),
                                             points_to_award=120)
 
     users = [

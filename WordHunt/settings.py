@@ -41,6 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WordHuntApp',
+    'django-crontab',
+]
+
+CRONJOBS = [
+    # Generate new competition every 12 hours
+    ('0 */12 * * *', 'WordHuntApp.cron.cron.generate_competition')
 ]
 
 MIDDLEWARE = [
