@@ -2,3 +2,9 @@
 db.sqlite3
 .idea/
 media/[^flag]*
+WordHunt/Include
+WordHunt/Lib
+WordHunt/Scripts
+WordHunt/tcl
+pip-selfcheck.json
+
