@@ -27,5 +27,8 @@ urlpatterns = [
 	url(r'^profile/stats/$',views.stats, name='stats'),
 	url(r'^profile/current/$',views.current, name='current'),
 	url(r'^profile/uploads/$',views.uploads, name='uploads'),
-	url(r'^profile/settings/$',views.settings, name='settings')
+	url(r'^profile/settings/$',views.settings, name='settings'),
+	url(r'^login/',views.user_login, name='login'),
+	url(r'^register/',views.register, name='register'),
+	url(r'^image/',views.image, name='image')
 ]
