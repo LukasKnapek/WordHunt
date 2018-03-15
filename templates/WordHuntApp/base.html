@@ -1,9 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+{% load rango_template_tags %}
+{% load staticfiles %}
 
 <html lang="en">
 
 	<head>
-		<title>WordHunt</title>
+		<title>WordHunt
+			{% block title_block %}
+			{% endblock %}
+		</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,7 +25,13 @@
 		<style>
 			.col-xs-0-2 {width: 2%;}
 			.col-xs-3-8 {width: 33.333%;}
+			a {color: #ffffff;}
+			a:hover, a:active {color: #f0f0f0;}
+			a:visited {color: #b4b4b4;}
 		</style>
+		
+		{% block head_block %}
+		{% endblock %}
 
 	</head>
 
@@ -32,42 +43,67 @@
 			<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-9"><font size="8"> WordHunt</font>
-					</div>
-					<div class="col-xs-3">
-						<center>
-						<input type="text" name="username" value="Username"/></br>
-						<input type="password" name="password" value="Password"/>
-						</center>
-					</div>
-				</div>
-
-				<div class="row">	
 					<div class="col-xs-9">
-						<div class="btn-group">
-							<button type="button" class="btn btn-success">Home</button>
-							<button type="button" class="btn btn-success">About</button>
-							<button type="button" class="btn btn-success">Past Words</button>
-							<button type="button" class="btn btn-success">Leaderboards</button>
-							<button type="button" class="btn btn-success">Search</button>
-						</div>
+                    				<div class="row">
+                        				<div class="col-xs-12">
+                        					<font size="8"> WordHunt
+									{% block page_title_block %}
+									{% endblock %}
+								</font>
+                      				     	</div>
+                        			</div>
+                    				<div class="row">
+                        				<div class="col-xs-12">
+                        					<div class="btn-group">
+									<button type="button" class="btn btn-success"><a href="{% url 'main' %}">Home</a></button>
+									<button type="button" class="btn btn-success"><a href="{% url 'about' %}">About</a></button>
+									<button type="button" class="btn btn-success"><a href="{% url 'past' %}">Past Words</a></button>
+									<button type="button" class="btn btn-success"><a href="{% url 'leaderboard' %}">Leaderboards</a></button>
+									<button type="button" class="btn btn-success"><a href="{% url 'search' %}">Search</a></button>
+								</div>
+                            				</div>
+                        			</div>
 					</div>
+                    
 					<div class="col-xs-3">
+						{% if user.is_authenticated %}
 						<center>
-						<button type="button" class ="btn btn-success">Register</button>
-						<a href="https://www.google.co.uk/"><button type="button" class ="btn btn-success">Log In</button></a>
+							<h4><b>{{ user.username }}</b></h4>
+							<p> Current competition status:</p>
+							{% if user.joined_competition %}
+								<p style="color: #5cb85c;"><b>entry submitted</b></p>
+							{% else %}
+								<p style="color: #d9534f;"><b>entry NOT submitted</b></p>
+							{% endif %}
+							<button type="button" class="btn btn-success"><a href="{% url 'profile/stats' user.slug %}">Profile</a></button>
+							<button type="button" class="btn btn-warning"><a href="{% url 'logout' %}">Logout</a></button>
+
+						{% else %}
+						<center>
+							<form id="login-form" method="post" action="{% url 'login' user.slug %}">
+								{% csrf_token %}
+								<input type="text" name="username" value="Username" />
+								<br />
+								<input type="password" name="password" value="Password" />
+								<br />
+								<button type="button submit" class ="btn btn-success">Log In</button>
+								<button type="button" class ="btn btn-success"><a href="{% url 'register' %}">Register</a></button>
+							</form>
 						</center>
+						{% endif %}
 					</div>
 				</div>
 			</div>
 			</div>
+
 
 		<!-- Main contents of the page and leaderboard-->
 			<div class="row">
 				<div class="col-xs-8">
 					<div class="panel panel-default">
 					<div class="panel-body">
-						<font size="20">Main part</font>
+						{% block body_block %}
+						{% endblock %}
 					</div>
 					</div>
 				</div>
@@ -78,7 +114,7 @@
 					<div class="panel-body">
 						<font size="6">Best Hunters</font>
 						<table class="table table-bordered">
-							<tr style="background-color: #c9ff99;">
+							<tr style="background-color: #5cb85c;">
 								<td style="width: 10%">#</td>
 								<td>Name</td>
 								<td style="width: 15%">Points</td>
