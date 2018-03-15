@@ -1,176 +1,50 @@
-﻿<!DOCTYPE html>
-
-<html lang="en">
-
-	<head>
-		<title>WordHunt</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+﻿{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
 
 
-	<!-- bootstrap CDN obtained from w3schools.com -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block title_block %}
+	- Leaderboards
+{% endblock %}
 
+{% block head_block %}
+	<style>
+		a {color: black;}
+	</style>
+{% endblock %}
 
-	<!-- MODIFICATIONS TO THE GRID -->
-		<style>
-			.col-xs-0-2 {width: 2%;}
-			.col-xs-3-8 {width: 33.333%;}
-		</style>
+{% block body_block %}
+	<font size=6>Leaderboards</font>
+	<br />
 
-	</head>
+	<table class="table table-bordered">
+		<tr style="background-color: #c9ff99; text-color: white;">
+			<td style="width: 10%">Rank</td>
+			<td>Name</td>
+			<td style="width: 25%">Number of Pictures Uploaded</td>
+			<td style="width: 15%">Points</td>
+		</tr>
+		{% if users %}
+			{% for user in users %}
+				<tr>
+					<td>{{user.rank}}</td>
+					<td><a href="{% url 'profile/stats' user.slug %}">{{user.username}}</a></td>
+					<td>{{user.pictures_number}}</td>
+					<td>{{user.points}}</td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+	</table>
 
-	<body style="font-family: Verdana, Helvetica, sans-serif;">
-		<div class="container-fluid">
-			<font size=6>Leaderboards</font>
-			<br>
+<!-- USING AJAX(?). First check if there is more than 20 users. If yes create a pagination button and when clicked reload user data starting from the next group-->
+	<center>
+		<ul class="pagination">
+			<li><a href="PART 1">1</a></li>
+			<li><a href="PART 2">2</a></li>
+			<li><a href="PART 3">3</a></li>
+			<li><a href="PART 4">4</a></li>
+			<li><a href="PART 5">5</a></li>
+		</ul>
+	</center>
 
-			<table class="table table-bordered">
-				<tr style="background-color: #c9ff99; text-color: white;">
-					<td style="width: 10%">#</td>
-					<td>Name</td>
-					<td style="width: 25%">Number of Pictures Uploaded</td>
-					<td style="width: 15%">Points</td>
-				</tr>
-				<tr>
-					<td>1.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>2.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>3.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>4.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>5.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>6.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>7.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>8.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>9.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>10.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>11.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>12.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>13.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>14.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>15.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>16.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>17.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>18.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>19.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-				<tr>
-					<td>20.</td>
-					<td>USERNAME</td>
-					<td>NUM</td>
-					<td>PTS</td>
-				</tr>
-			</table>
-
-		<!-- USING AJAX(?). First check if there is more than 20 users. If yes create a pagination button and when clicked reload user data starting from the next group-->
-
-			<center>
-				<ul class="pagination">
-					<li><a href="PART 1">1</a></li>
-					<li><a href="PART 2">2</a></li>
-					<li><a href="PART 3">3</a></li>
-					<li><a href="PART 4">4</a></li>
-					<li><a href="PART 5">5</a></li>
-				</ul>
-			</center>
-
-			<a href="MAINPAGE">Return to the main page</a> 
-		</div>
-	</body>
-</html>
+	<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}

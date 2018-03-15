@@ -1,51 +1,29 @@
-﻿<!DOCTYPE html>
-
-<html lang="en">
-
-	<head>
-		<title>WordHunt</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+﻿{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
 
 
-	<!-- bootstrap CDN obtained from w3schools.com -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block title_block %}
+	- Leaderboards
+{% endblock %}
 
+{% block head_block %}
+	<script>
+		$(document).ready(function(){ $('[data-toggle="tooltip"]').tooltip();});
+	</script> 
+{% endblock %}
 
-	<!-- MODIFICATIONS TO THE GRID -->
-		<style>
-			.col-xs-0-2 {width: 2%;}
-			.col-xs-3-8 {width: 33.333%;}
-		</style>
+{% block body_block %}
+	<font size=6>Past Words</font>
+	<br />
 
-	<!-- ALLOW TOOLTIPS TO WORK -->
-		<script>
+	<ul class="list-group">
+	{% if competitions %}
+		{% for competition in competitions %}
+			<a href="{% url 'word' word.slug %}"><li class="list-group-item">{{competition.word}}: {{competition.end_date}}<span class="badge">{{competition.pictures_number}}</span></li></a>
+		{% endfor %}
+	{% endif %}
+	</ul>
 
-			$(document).ready(function(){ $('[data-toggle="tooltip"]').tooltip();});
-
-		</script> 
-
-	</head>
-
-	<body style="font-family: Verdana, Helvetica, sans-serif;">
-		<div class="container-fluid">
-			<font size=6>Past Words</font>
-			<br>
-
-			<ul class="list-group">
-				<a href="WORDPAGE"><li class="list-group-item">WORD 1: DATE <span class="badge">NUMBER OF PICTURES</span></li></a>
-				<a href="WORDPAGE"><li class="list-group-item">WORD 2: DATE <span class="badge">NUMBER OF PICTURES</span></li></a>
-				<a href="WORDPAGE"><li class="list-group-item">WORD 3: DATE <span class="badge">NUMBER OF PICTURES</span></li></a>
-				<a href="WORDPAGE"><li class="list-group-item">WORD 4: DATE <span class="badge">NUMBER OF PICTURES</span></li></a>
-			</ul>
-
-			<br>
-			<a href="MAINPAGE">Return to the main page</a> 
-
-		</div>
-	</body>
-</html>
+	<br />
+	<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}

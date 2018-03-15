@@ -37,11 +37,13 @@
 
 	<body style="background-color: #f2ffe6; font-family: Verdana, Helvetica, sans-serif;">
 		<div class="container-fluid">
-			<br>
+			<br />
+
 
 		<!-- Top part: title, login and subpages -->
 			<div class="panel panel-default">
 			<div class="panel-body">
+
 				<div class="row">
 					<div class="col-xs-9">
                     				<div class="row">
@@ -55,11 +57,11 @@
                     				<div class="row">
                         				<div class="col-xs-12">
                         					<div class="btn-group">
-									<button type="button" class="btn btn-success"><a href="{% url 'main' %}">Home</a></button>
-									<button type="button" class="btn btn-success"><a href="{% url 'about' %}">About</a></button>
-									<button type="button" class="btn btn-success"><a href="{% url 'past' %}">Past Words</a></button>
-									<button type="button" class="btn btn-success"><a href="{% url 'leaderboard' %}">Leaderboards</a></button>
-									<button type="button" class="btn btn-success"><a href="{% url 'search' %}">Search</a></button>
+									<a href="{% url 'main' %}"><button type="button" class="btn btn-success">Home</button></a>
+									<a href="{% url 'about' %}"><button type="button" class="btn btn-success">About</button></a>
+									<a href="{% url 'past' %}"><button type="button" class="btn btn-success">Past Words</button></a>
+									<a href="{% url 'leaderboard' %}"><button type="button" class="btn btn-success">Leaderboards</button></a>
+									<a href="{% url 'search' %}"><button type="button" class="btn btn-success">Search</button></a>
 								</div>
                             				</div>
                         			</div>
@@ -70,29 +72,30 @@
 						<center>
 							<h4><b>{{ user.username }}</b></h4>
 							<p> Current competition status:</p>
-							{% if user.joined_competition %}
+							{% if user.currently_participates %}
 								<p style="color: #5cb85c;"><b>entry submitted</b></p>
 							{% else %}
 								<p style="color: #d9534f;"><b>entry NOT submitted</b></p>
 							{% endif %}
-							<button type="button" class="btn btn-success"><a href="{% url 'profile/stats' user.slug %}">Profile</a></button>
-							<button type="button" class="btn btn-warning"><a href="{% url 'logout' %}">Logout</a></button>
+							<a href="{% url 'profile/stats' user.slug %}"><button type="button" class="btn btn-success">Profile</button></a>
+							<a href="{% url 'logout' %}"><button type="button" class="btn btn-warning">Logout</button></a>
 
 						{% else %}
 						<center>
-							<form id="login-form" method="post" action="{% url 'login' user.slug %}">
+							<form id="login-form" method="post" action="{% url 'login' %}">
 								{% csrf_token %}
 								<input type="text" name="username" value="Username" />
 								<br />
 								<input type="password" name="password" value="Password" />
 								<br />
 								<button type="button submit" class ="btn btn-success">Log In</button>
-								<button type="button" class ="btn btn-success"><a href="{% url 'register' %}">Register</a></button>
+								<a href="{% url 'register' %}"><button type="button" class ="btn btn-success">Register</button></a>
 							</form>
 						</center>
 						{% endif %}
 					</div>
 				</div>
+
 			</div>
 			</div>
 
@@ -120,56 +123,16 @@
 								<td style="width: 15%">Points</td>
 							</tr>
 
-							<tr>
-								<td>1.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>2.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>3.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>4.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>5.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>6.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>7.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>8.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>9.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
-							<tr>
-								<td>10.</td>
-								<td>USERNAME</td>
-								<td>PTS</td>
-							</tr>
+							{% if users %}
+								{% for user in users %}
+									<tr>
+										<td>{{user.rank}}</td>
+										<td>{{user.username}}</td>
+										<td>{{user.points}}</td>
+									</tr>
+								{% endfor %}
+							{% endif %}
+
 						</table>
 					</div>
 					</div>
@@ -181,7 +144,7 @@
 			<div class="panel panel-default">
 			<div class="panel-body">
 				Created by Team A. Thoughts? Contact us!
-				<span style="float: right;">Find the source at <a href="https://github.com/Mabufudyne/WordHunt">https://github.com/Mabufudyne/WordHunt</a></span>
+				<span style="float: right;">Find the source at <a href="https://github.com/Mabufudyne/WordHunt" style="color: #5cb85c;">https://github.com/Mabufudyne/WordHunt</a></span>
 			</div>
 			</div>
 		</div>

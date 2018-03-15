@@ -1,26 +1,12 @@
-﻿<!DOCTYPE html>
-
-<html lang="en">
-
-	<head>
-		<title>WordHunt</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+﻿{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
 
 
-	<!-- bootstrap CDN obtained from w3schools.com -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block title_block %}
+	- Search
+{% endblock %}
 
-
-	<!-- MODIFICATIONS TO THE GRID -->
-		<style>
-			.col-xs-0-2 {width: 2%;}
-			.col-xs-3-8 {width: 33.333%;}
-		</style>
+{% block head_block %}
 	<!-- ALLOW THE SEARCH TOOL TO WORK-->
 		<script>
 			$(document).ready(function(){
@@ -35,164 +21,49 @@
 				});
 			});
 		</script> 
+{% endblock %}
 
-	</head>
+{% block body_block %}
+	<font size=6>Search</font>
+	<br />
 
-	<body style="font-family: Verdana, Helvetica, sans-serif;">
-		<div class="container-fluid">
+	<input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+	<br />
 
-			<font size=6>Search</font>
-			<br>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="width: 10%">Rank</th>
+				<th>Username</th>
+				<th style="width: 20%">Number of Pictures</th>
+				<th style="width: 10%">Points</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% if users %}
+				{% for user in users %}
+					<tr class="clickable-row" data-href="{% url 'profile/stats' user.slug %}">
+						<td>{{user.rank}}</td>
+						<td>{{user.username}}</td>
+						<td>{{user.pictures_number}}</td>
+						<td>{{user.points}}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
 
-			<input class="form-control" id="myInput" type="text" placeholder="Search.."/>
-			<br>
+<!-- USING AJAX(?). First check if there is more than 20 users. If yes create a pagination button and when clicked reload user data starting from the next group-->
 
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th style="width: 10%">Rank</th>
-						<th>Username</th>
-						<th style="width: 20%">Number of Pictures</th>
-						<th style="width: 10%">Points</th>
-					</tr>
-				</thead>
-				<tbody id="myTable">
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>1.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>2.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>3.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>4.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>5.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>6.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>7.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>8.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>9.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>10.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>11.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>12.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>13.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>14.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>15.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>16.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>17.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>18.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>19.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-					<tr class="clickable-row" data-href="USERMAINPAGE">
-						<td>20.</td>
-						<td>USERNAME</td>
-						<td>NUM</td>
-						<td>PTS</td>
-					</tr>
-				</tbody>
-			</table>
-
-		<!-- USING AJAX(?). First check if there is more than 20 users. If yes create a pagination button and when clicked reload user data starting from the next group-->
-
-			<center>
-				<ul class="pagination">
-					<li><a href="PART 1">1</a></li>
-					<li><a href="PART 2">2</a></li>
-					<li><a href="PART 3">3</a></li>
-					<li><a href="PART 4">4</a></li>
-					<li><a href="PART 5">5</a></li>
-				</ul>
-			</center>
-			<br>
-			<a href="MAINPAGE">Return to the main page</a> 
-		</div>
-	</body>
-</html>
+	<center>
+		<ul class="pagination">
+			<li><a href="PART 1">1</a></li>
+			<li><a href="PART 2">2</a></li>
+			<li><a href="PART 3">3</a></li>
+			<li><a href="PART 4">4</a></li>
+			<li><a href="PART 5">5</a></li>
+		</ul>
+	</center>
+	<br />
+	<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}
