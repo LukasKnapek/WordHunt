@@ -61,6 +61,7 @@ class Image(models.Model):
     def __unicode__(self):
         return "Image %s" % self.id
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User)
     image = models.ForeignKey(Image)
@@ -72,7 +73,6 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return "Comment %d left by %s for %s" % (self.id, self.user, self.image)
-
 
 
 class Rating(models.Model):
