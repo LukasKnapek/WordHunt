@@ -44,12 +44,7 @@ INSTALLED_APPS = [
     'django_crontab',
 ]
 
-CRONJOBS = [
-    # Generate new competition every 12 hours
-    ('0 */12 * * *', 'WordHuntApp.cron.cron.generate_competition')
-]
-
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

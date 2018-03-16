@@ -2766,7 +2766,6 @@ pair
 pajamas
 palm
 pamphlet
-pan
 pancake
 pancreas
 panda
@@ -3480,7 +3479,6 @@ shake
 shakedown
 shaker
 shallot
-shame
 shampoo
 shanty
 shape
