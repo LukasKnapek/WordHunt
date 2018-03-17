@@ -7,28 +7,38 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        if is_competition_active():
-            self.stdout.write("Cannot generate a new competition, another competition is still active")
-            return
+        competition_duration = datetime.timedelta(hours=23, minutes=50)
+
+#        if is_competition_active():
+#            self.stdout.write("Cannot generate a new competition, another competition is still active")
+#            return
 
         # Get this script's folder
         work_dir = os.path.dirname(__file__)
         input_file = os.path.join(work_dir, "nounlist.txt")
-        competition_duration_hours = 23
 
         with open(input_file) as inp:
-            nouns = inp.readlines()
+            nouns = inp.read().split(",")
         chosen_word = random.choice(nouns)
 
         # Remove the chosen word from all nouns and resave
         nouns.remove(chosen_word)
         with open(input_file, "w") as out:
-            out.writelines(nouns)
+            out.writelines(",".join(nouns))
 
         # Create a new Word object and an associated Competition
         word = Word.objects.get_or_create(text=chosen_word.capitalize())[0]
         comp = Competition.objects.get_or_create(word=word,
                                                  start_date=datetime.datetime.now(pytz.utc),
                                                  end_date=datetime.datetime.now(pytz.utc)
-                                                          + datetime.timedelta(hours=competition_duration_hours),
+                                                          + competition_duration,
                                                  points_to_award=random.randint(2, 6) * 10)[0]
+
+        word.save()
+        comp.save()
+
+        self.stdout.write("New competition generated:")
+        self.stdout.write("Word: '%s'" % comp.word)
+        self.stdout.write("Start date: '%s'" % comp.start_date)
+        self.stdout.write("End date: '%s'" % comp.end_date)
+        self.stdout.write("Points: '%s'" % comp.points_to_award)

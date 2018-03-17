@@ -3,23 +3,25 @@ import django
 
 
 # Add the the main project folder to Python path
-sys.path.append('..')
+work_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(work_dir)
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'WordHunt.settings')
 
+
+# Get this script's folder
 django.setup()
 
 from WordHuntApp.models import *
 from django.contrib.auth.models import User
 
-
-
 def populate():
     # Create the word and the competition related to that word
     word = Word.objects.get_or_create(text="Flag")[0]
     cmp = Competition.objects.get_or_create(word=word,
-                                            start_date=datetime.datetime(2018,2,12,10,0,0, pytz.utc),
-                                            end_date=datetime.datetime(2018,2,12,20,0,0, pytz.utc),
+                                            start_date=datetime.datetime.now(pytz.utc),
+                                            end_date=datetime.datetime.now(pytz.utc) + datetime.timedelta(hours=23),
                                             points_to_award=120)
 
     users = [

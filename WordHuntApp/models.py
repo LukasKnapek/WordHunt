@@ -19,7 +19,7 @@ class UserProfile(models.Model):
 
 
 class Word(models.Model):
-    text = models.CharField(max_length=50, unique=True, primary_key=True)
+    text = models.CharField(max_length=50, primary_key=True)
 
     def __str__(self):
         return self.text
@@ -33,6 +33,7 @@ class Competition(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     points_to_award = models.IntegerField()
+    evaluated = models.BooleanField(default=False)
 
     def __str__(self):
         return "'%s', %s,  %s - %s, awards %d points" % (self.word, self.start_date.strftime("%d/%m/%Y"),
