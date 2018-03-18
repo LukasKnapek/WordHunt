@@ -14,9 +14,11 @@ from WordHuntApp.models import Competition
 from WordHuntApp.models import Image
 from WordHuntApp.models import Comment
 from WordHuntApp.models import Rating
+from WordHuntApp.forms import ImageUploadForm
 
 def main(request):
-    response = render(request, 'WordHuntApp/main.html')
+    #works if "competition.word" in main.html is changed to "word"
+    response = render(request, 'WordHuntApp/main.html',{'word':Competition.objects.values_list('word').get(pk=1)[0]})
     return response
     
 def about(request):
@@ -24,12 +26,15 @@ def about(request):
     return response
     
 def past(request):
-    #words = Competition.objects.get()
+    #Needs slug to be implemented
+    #words = Competition.objects.all()
+    #context_dict={'competitions':words}
     response = render(request, 'WordHuntApp/pastWords.html')
     return response
     
 def leaderboard(request):
-    response = render(request, 'WordHuntApp/leaderboards.html')
+    user_list = UserProfile.objects.order_by('rank')[:5]
+    response = render(request, 'WordHuntApp/leaderboards.html',{'users':user_list})
     return response
     
 def search(request):
@@ -48,18 +53,24 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-        if user: 
+        if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('main'))
+                return HttpResponseRedirect(reverse('index'))
             else:
-                return HttpResponse("Invalid account")
+                return HttpResponse("Your Rango account is disabled.")
         else:
-             return HttpResponse("Wrong username or password")
+            return HttpResponse("Invalid login details supplied.")
     else:
-        return null
-        
-def image(request):
+        return render(request, 'WordHuntApp/main.html', {})
+
+    #Needs slug to be implemented
+#def word(request,name):
+    #word_name = Competition.objects.get(slug = name)
+    #context_dict = {'word':word_name}
+    #response = render(request, 'WordHuntApp/viewImage.html',context = context_dict)
+    
+def word(request):
     response = render(request, 'WordHuntApp/viewImage.html')
     return response
     
