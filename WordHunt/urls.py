@@ -19,16 +19,17 @@ from WordHuntApp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	url(r'^$',views.main, name='main'),
-	url(r'^about/$',views.about, name='about'),
-	url(r'^past/$',views.past, name='past'),
-	url(r'^leaderboard/$',views.leaderboard, name='leaderboard'),
-	url(r'^search/$',views.search, name='search'),
-	url(r'^profile/stats/$',views.stats, name='stats'),
-	url(r'^profile/current/$',views.current, name='current'),
-	url(r'^profile/uploads/$',views.uploads, name='uploads'),
-	url(r'^profile/settings/$',views.settings, name='settings'),
-	url(r'^login/',views.user_login, name='login'),
-	url(r'^register/',views.register, name='register'),
-	url(r'^image/',views.image, name='image')
+    url(r'^$',views.main, name='main'),
+    url(r'^about/$',views.about, name='about'),
+    url(r'^past/$',views.past, name='past'),
+    url(r'^leaderboard/$',views.leaderboard, name='leaderboard'),
+    url(r'^search/$',views.search, name='search'),
+    url(r'^profile/stats/$',views.stats, name='stats'),
+    url(r'^profile/current/$',views.current, name='current'),
+    url(r'^profile/uploads/$',views.uploads, name='uploads'),
+    url(r'^profile/settings/$',views.settings, name='settings'),
+    url(r'^login/',views.user_login, name='login'),
+    url(r'^register/',views.register, name='register'),
+	url(r'^word/',views.word, name='word')
+    #url(r'^word/(?P<name>[\w\-]+)/',views.word, name='word') Needs slug to be implemented
 ]
