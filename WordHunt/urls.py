@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from WordHuntApp import views
+from django.conf.urls import include
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,5 +32,7 @@ urlpatterns = [
 	url(r'^profile/settings/$',views.settings, name='settings'),
 	url(r'^login/',views.user_login, name='login'),
 	url(r'^register/',views.register, name='register'),
-	url(r'^image/',views.image, name='image')
+	url(r'^image/',views.image, name='image'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+
 ]
