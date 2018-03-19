@@ -15,10 +15,18 @@ from WordHuntApp.models import Image
 from WordHuntApp.models import Comment
 from WordHuntApp.models import Rating
 from WordHuntApp.forms import ImageUploadForm
+from WordHuntApp.utils import *
 
 def main(request):
     #works if "competition.word" in main.html is changed to "word"
-    response = render(request, 'WordHuntApp/main.html',{'word':Competition.objects.values_list('word').get(pk=1)[0]})
+    context_dict = {}
+
+    if is_competition_active():
+        context_dict["word"] = get_current_word().text
+    else:
+        context_dict["word"] = "No competition at the moment!"
+
+    response = render(request, 'WordHuntApp/main.html', context_dict)
     return response
     
 def about(request):
