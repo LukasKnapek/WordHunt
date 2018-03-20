@@ -17,28 +17,35 @@ from WordHuntApp.models import Rating
 from WordHuntApp.forms import ImageUploadForm
 from WordHuntApp.utils import *
 
+def user_list_def():
+    user_list = UserProfile.objects.order_by('rank')[:5]
+    dict = {'users':user_list}
+    return dict
+
 def main(request):
-    context_dict = {}
+    context_dict = user_list_def()
     if is_competition_active():
         context_dict["word"] = get_current_word().text
     else:
         context_dict["word"] = "No competition at the moment!"
-
     response = render(request, 'WordHuntApp/main.html', context_dict)
     return response
     
 def about(request):
-    response = render(request, 'WordHuntApp/about.html')
+    context_dict = user_list_def()
+    response = render(request, 'WordHuntApp/about.html',context_dict)
     return response
     
 def past(request):
+    context_dict = user_list_def()
     competition = Competition.objects.all()
-    response = render(request, 'WordHuntApp/pastWords.html',{'competitions':competition})
+    context_dict['competitions'] = competition
+    response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
     
 def leaderboard(request):
-    user_list = UserProfile.objects.order_by('rank')[:5]
-    response = render(request, 'WordHuntApp/leaderboards.html',{'users':user_list})
+    context_dict = user_list_def()
+    response = render(request, 'WordHuntApp/leaderboards.html',context_dict)
     return response
     
 def search(request):
@@ -48,8 +55,9 @@ def search(request):
     return response
     
 def register(request):
+    context_dict = user_list_def()
     registered = False
-    response = render(request, 'WordHuntApp/register.html')
+    response = render(request, 'WordHuntApp/register.html',context_dict)
     return response
     
 def user_login(request):
