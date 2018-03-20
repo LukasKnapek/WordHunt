@@ -18,9 +18,7 @@ from WordHuntApp.forms import ImageUploadForm
 from WordHuntApp.utils import *
 
 def main(request):
-    #works if "competition.word" in main.html is changed to "word"
     context_dict = {}
-
     if is_competition_active():
         context_dict["word"] = get_current_word().text
     else:
@@ -34,10 +32,8 @@ def about(request):
     return response
     
 def past(request):
-    #Needs slug to be implemented
-    #words = Competition.objects.all()
-    #context_dict={'competitions':words}
-    response = render(request, 'WordHuntApp/pastWords.html')
+    competition = Competition.objects.all()
+    response = render(request, 'WordHuntApp/pastWords.html',{'competitions':competition})
     return response
     
 def leaderboard(request):
@@ -72,18 +68,17 @@ def user_login(request):
     else:
         return render(request, 'WordHuntApp/main.html', {})
 
-    #Needs slug to be implemented
-#def word(request,name):
-    #word_name = Competition.objects.get(slug = name)
-    #context_dict = {'word':word_name}
-    #response = render(request, 'WordHuntApp/viewImage.html',context = context_dict)
-    
+
 def word(request):
     response = render(request, 'WordHuntApp/viewImage.html')
     return response
     
 @login_required
-def stats(request):
+def stats(request,user):
+    try:
+        u = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        u = None
     response = render(request, 'WordHuntApp/userMain.html')
     return response
     
