@@ -27,9 +27,9 @@
 			{% for user in users %}
 				<tr>
 					<td>{{user.rank}}</td>
-					<td><a href="{% url 'profile/stats' user.slug %}">{{user.username}}</a></td>
+					<td><a href="{% url 'stats' user %}">{{user}}</a></td>
 					<td>{{user.pictures_number}}</td>
-					<td>{{user.points}}</td>
+					<td>{{user.total_points}}</td>
 				</tr>
 			{% endfor %}
 		{% endif %}

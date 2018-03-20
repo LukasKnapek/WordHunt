@@ -80,7 +80,7 @@
 
 						{% else %}
 						<center>
-							<form id="login-form" method="post" action="{% url 'auth_login' %}">
+							<form id="login-form" method="post" action="{% url 'stats' %}">
 								{% csrf_token %}
 								<input type="text" name="username" value="Username" />
 								<br />
@@ -125,8 +125,8 @@
 								{% for user in users %}
 									<tr>
 										<td>{{user.rank}}</td>
-										<td>{{user.username}}</td>
-										<td>{{user.points}}</td>
+										<td><a href="{% url 'stats' user %}">{{user}}</a></td>
+										<td>{{user.total_points}}</td>
 									</tr>
 								{% endfor %}
 							{% endif %}
