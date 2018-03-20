@@ -80,7 +80,7 @@
 
 						{% else %}
 						<center>
-							<form id="login-form" method="post" action="{% url 'stats' %}">
+							<form id="login-form" method="post" action="{% url 'stats' user %}">
 								{% csrf_token %}
 								<input type="text" name="username" value="Username" />
 								<br />
