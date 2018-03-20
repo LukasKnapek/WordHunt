@@ -69,18 +69,19 @@
 					<div class="col-xs-3">
 						{% if user.is_authenticated %}
 						<center>
-							<h4><b>{{ user.username }}</b></h4>
+							<h4><b>{{ user }}</b></h4>
 							<p> Current competition status:</p>
 							{% if user.currently_participates %}
 								<p style="color: #5cb85c;"><b>Entry Submitted</b></p>
 							{% else %}
 								<p style="color: #d9534f;"><b>Entry NOT Submitted</b></p>
 							{% endif %}
+							<a href="{% url 'stats' user %}"><button type="button" class="btn btn-warning">Profile</button></a>
 							<a href="{% url 'auth_logout' %}?next=/"><button type="button" class="btn btn-warning">Logout</button></a>
 
 						{% else %}
 						<center>
-							<form id="login-form" method="post" action="{% url 'stats' %}">
+							<form id="login-form" method="post" action="{% url 'stats' user %}">
 								{% csrf_token %}
 								<input type="text" name="username" value="Username" />
 								<br />
