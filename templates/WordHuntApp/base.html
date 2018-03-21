@@ -76,20 +76,16 @@
 							{% else %}
 								<p style="color: #d9534f;"><b>Entry NOT Submitted</b></p>
 							{% endif %}
-							<a href="{% url 'stats' user %}"><button type="button" class="btn btn-warning">Profile</button></a>
+							<a href="{% url 'stats' user %}"><button type="button" class="btn btn-success">Profile</button></a>
 							<a href="{% url 'auth_logout' %}?next=/"><button type="button" class="btn btn-warning">Logout</button></a>
 
 						{% else %}
 						<center>
-							<form id="login-form" method="post" action="{% url 'stats' user %}">
-								{% csrf_token %}
-								<input type="text" name="username" value="Username" />
-								<br />
-								<input type="password" name="password" value="Password" />
-								<br />
-								<button type="button submit" class ="btn btn-success">Log In</button>
+						
+								<div style="padding: 10%">
+								<a href="{% url 'auth_login' %}"><button type="button" class ="btn btn-success">Log In</button></a>
 								<a href="{% url 'registration_register' %}"><button type="button" class ="btn btn-success">Register</button></a>
-							</form>
+								</div>
 						</center>
 						{% endif %}
 					</div>
@@ -126,7 +122,7 @@
 								{% for user in users %}
 									<tr>
 										<td>{{user.rank}}</td>
-										<td><a href="{% url 'stats' user %}">{{user}}</a></td>
+										<td><a href="{% url 'stats' user %}" style="color: black">{{user}}</a></td>
 										<td>{{user.total_points}}</td>
 									</tr>
 								{% endfor %}

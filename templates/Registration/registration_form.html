@@ -1,9 +1,30 @@
 ﻿{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	- Register
+{% endblock %}
+
 {% block body_block %}
-	<h1>Register Here</h1>
-	<form method="post" action=".">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Submit" />
-	</form>
-{% endblock %}
+	<font size=6>Register</font>
+	<br />
+			
+	
+	{% if registered %}
+		<center>
+		<strong>Thank you for registering!</strong>
+		<a href="{% url 'main' %}">Return to the main page</a><br />
+		</center>
+	{% else %}
+		<p>Create an account to comment on pictures and upload your own to start playing!</p>
+		<br />
+		<form method="post" action=".">
+			{% csrf_token %}
+			{{ form.as_p }}
+				<center><button type="button submit" class="btn btn-success">Register</button></center>
+		</form>
+	{% endif %}
+	
+
+	<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}

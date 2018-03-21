@@ -11,24 +11,14 @@
 		</div>
 	</div>
 	<hr>
-	<table style="width: 100%; height: 480px">
-		<tr>
-			<td>Picture 1</td>
-			<td>Picture 2</td>
-			<td>Picture 3</td>
-			<td>Picture 4</td>
-		</tr>
-		<tr>
-			<td>Picture 5</td>
-			<td>Picture 6</td>
-			<td>Picture 7</td>
-			<td>Picture 8</td>
-		</tr>
-		<tr>
-			<td>Picture 9</td>
-			<td>Picture 10</td>
-			<td>Picture 11</td>
-			<td>Picture 12</td>
-		</tr>
-	</table>
+	<div class="row" style="max-width: 600px; max-height: 600px;">
+		{% for image in images %}
+			{% if image.related_word == word %}
+				<div class="col-xs-3" style="max-width: 100%; max-height: 100%;">
+					<img src="{{ image.uploaded_image }}" alt="Image for competition {{word}}">
+					<center>{{image.user}}</center>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
 {% endblock %}

@@ -42,11 +42,11 @@
 		<tbody id="myTable">
 			{% if users %}
 				{% for user in users %}
-					<tr class="clickable-row" data-href="{% url 'profile/stats' user.slug %}">
+					<tr class="clickable-row" data-href="{% url 'stats' user %}">
 						<td>{{user.rank}}</td>
-						<td>{{user.username}}</td>
-						<td>{{user.pictures_number}}</td>
-						<td>{{user.points}}</td>
+						<td>{{user}}</td>
+						<td></td>
+						<td>{{user.total_points}}</td>
 					</tr>
 				{% endfor %}
 			{% endif %}
