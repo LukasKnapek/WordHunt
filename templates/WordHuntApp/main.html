@@ -11,14 +11,14 @@
 		</div>
 	</div>
 	<hr>
-	<div class="row" style="max-width: 600px; max-height: 600px;">
+	<div class="row">
 		{% for image in images %}
-			{% if image.related_word == word %}
-				<div class="col-xs-3" style="max-width: 100%; max-height: 100%;">
-					<img src="{{ image.uploaded_image }}" alt="Image for competition {{word}}">
-					<center>{{image.user}}</center>
-				</div>
-			{% endif %}
+			<div class="col-xs-4">
+				<img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/>
+				<center>
+				{{image.user}}
+				</center>
+			</div>
 		{% endfor %}
 	</div>
 {% endblock %}

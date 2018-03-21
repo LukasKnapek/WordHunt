@@ -15,10 +15,7 @@
 	<!-- bootstrap CDN obtained from w3schools.com -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+		
 
 	<!-- MODIFICATIONS TO THE GRID -->
 		<style>
@@ -76,7 +73,7 @@
 							{% else %}
 								<p style="color: #d9534f;"><b>Entry NOT Submitted</b></p>
 							{% endif %}
-							<a href="{% url 'stats' user %}"><button type="button" class="btn btn-success">Profile</button></a>
+							<a href="{% url 'stats' user.username %}"><button type="button" class="btn btn-success">Profile</button></a>
 							<a href="{% url 'auth_logout' %}?next=/"><button type="button" class="btn btn-warning">Logout</button></a>
 							<a href="{% url 'auth_password_change' %}"><button type="button" class="btn btn-success">Change Password</button></a>
 
@@ -123,7 +120,7 @@
 								{% for user in users %}
 									<tr>
 										<td>{{user.rank}}</td>
-										<td><a href="{% url 'stats' user %}" style="color: black">{{user}}</a></td>
+										<td><a href="{% url 'main' %}" style="color: black">{{user}}</a></td>
 										<td>{{user.total_points}}</td>
 									</tr>
 								{% endfor %}
@@ -144,5 +141,9 @@
 			</div>
 			</div>
 		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	</body>
 </html>

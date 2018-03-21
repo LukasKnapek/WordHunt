@@ -23,3 +23,8 @@ class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = Image
         exclude = ('related_word', 'user', 'avg_rating')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = ('user',)
