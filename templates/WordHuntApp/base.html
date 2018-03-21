@@ -78,6 +78,7 @@
 							{% endif %}
 							<a href="{% url 'stats' user %}"><button type="button" class="btn btn-success">Profile</button></a>
 							<a href="{% url 'auth_logout' %}?next=/"><button type="button" class="btn btn-warning">Logout</button></a>
+							<a href="{% url 'auth_password_change' %}"><button type="button" class="btn btn-success">Change Password</button></a>
 
 						{% else %}
 						<center>
