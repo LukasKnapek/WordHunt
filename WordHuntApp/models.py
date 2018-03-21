@@ -79,7 +79,7 @@ class Comment(models.Model):
 class Rating(models.Model):
     user = models.ForeignKey(User)
     image = models.ForeignKey(Image)
-    rating = models.IntegerField()
+    rating = models.FloatField()
 
     def __str__(self):
         return "%d/5 - left by %s for %s" % (self.rating, self.user, self.image)

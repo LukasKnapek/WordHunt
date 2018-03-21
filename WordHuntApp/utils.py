@@ -1,5 +1,5 @@
 import datetime, pytz, exifread
-from WordHuntApp.models import Competition, Word
+from WordHuntApp.models import *
 
 
 def get_current_word():
@@ -50,3 +50,9 @@ def get_image_coordinates(path):
         long_dd = -long_dd
 
     return lat_dd, long_dd
+
+def calculate_new_average_rating(image):
+    image_ratings = Rating.objects.filter(image=image)
+    image.avg_rating = sum(r.rating for r in image_ratings) / len(image_ratings)
+    image.save()
+
