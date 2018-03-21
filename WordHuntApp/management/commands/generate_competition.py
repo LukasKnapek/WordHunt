@@ -96,7 +96,8 @@ class Command(BaseCommand):
         for position, entry in enumerate(winning_entries, 1):
             winner = UserProfile.objects.get(user=entry.user)
             winner.total_points += points_per_winner;
-            winner.save(update_fields=["total_points"])
+            winner.competitions_won += 1
+            winner.save(update_fields=["total_points", "competitions_won"])
             self.stdout.write("'%s' is in %s. place! (avg. image rating %s) -> +%s points" %
                               (winner, position, entry.avg_rating, points_per_winner))
 

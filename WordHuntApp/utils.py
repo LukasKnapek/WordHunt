@@ -56,3 +56,16 @@ def calculate_new_average_rating(image):
     image.avg_rating = sum(r.rating for r in image_ratings) / len(image_ratings)
     image.save()
 
+    update_competition_ranks()
+
+def update_competition_ranks():
+    word = get_current_word()
+    try:
+        images = Image.objects.filter(related_word=word).order_by("-avg_rating")
+        for comp_rank, image in enumerate(images, 1):
+            user = UserProfile.objects.get(user=image.user)
+            user.competition_rank = comp_rank
+            user.save()
+
+    except Image.DoesNotExist:
+        print("No images yet for competition '%s'" % word.text)
