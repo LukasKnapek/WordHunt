@@ -1,6 +1,9 @@
 import datetime, pytz, exifread
 from WordHuntApp.models import *
-
+from django.contrib.auth.models import User
+from registration.signals import user_registered
+from django.core.signals import request_finished
+from django.dispatch import receiver
 
 def get_current_word():
     competition = Competition.objects.latest('start_date')
@@ -31,16 +34,17 @@ def get_image_coordinates(path):
     image = open(path, 'rb')
     exif_tags = exifread.process_file(image, details=False)
     try:
+        print(exif_tags)
         latitude_ref = exif_tags["GPS GPSLatitudeRef"]
         longitude_ref = exif_tags["GPS GPSLongitudeRef"]
         latitude = exif_tags["GPS GPSLatitude"]
         longitude = exif_tags["GPS GPSLongitude"]
     except KeyError:
-        return False
+        return False, False
 
     # If we don't have all the data, we cannot parse the coordinates
     if not (latitude and latitude_ref and longitude and longitude_ref):
-        return False
+        return False, False
 
     lat_dd = _convert_from_dms_to_dd(latitude)
     long_dd = _convert_from_dms_to_dd(longitude)
@@ -81,3 +85,13 @@ def get_number_of_user_images(user_profiles):
     for user_profile in user_profiles:
         numbers.append(len(Image.objects.filter(user=user_profile.user)))
     return numbers
+
+@receiver(user_registered)
+def create_new_user_profile(sender, **kwargs):
+    user = kwargs["user"]
+    user_profile = UserProfile.objects.create(user=user,
+                                              rank=get_last_rank())
+    print("New user successfully registered")
+
+def get_last_rank():
+    return len(UserProfile.objects.all()) + 1

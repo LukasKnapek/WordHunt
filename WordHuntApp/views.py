@@ -151,6 +151,8 @@ def current(request, username):
     context_dict = {}
     context_dict["currently_participates"] = False
 
+    get_last_rank()
+
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -192,14 +194,15 @@ def current(request, username):
 
                     userprofile.currently_participates = True
                     userprofile.save()
+                    image.save()
 
-                    if request.POST["checkbox_scrap_gps"] == "on":
+                    if "checkbox_scrap_gps" in request.POST:
                         latitude, longitude = get_image_coordinates(image.uploaded_image.path)
                         if latitude and longitude:
                             image.latitude = latitude
                             image.longitude = longitude
+                            image.save()
 
-                    image.save()
                     context_dict["existing_image"] = image
             else:
                 context_dict["status"] = "Invalid submission"

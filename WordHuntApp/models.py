@@ -4,11 +4,10 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     total_points = models.IntegerField(default=0)
-    rank = models.IntegerField(default=None, null=True)
+    rank = models.IntegerField(null=True)
     competition_rank = models.IntegerField(default=None, null=True)
     competitions_won = models.IntegerField(default=0, null=True)
     currently_participates = models.BooleanField(default=False)
