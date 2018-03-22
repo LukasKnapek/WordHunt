@@ -4,12 +4,8 @@
 {% block title_block %}
 	- {{userprofile}} Profile
 {% endblock %}
+
 {% block head_block %}
-	<style>
-			a {color: black;}
-			a:hover, a:active {color: black;}
-			a:visited {color: #b4b4b4;}
-	</style>
 {% endblock %}
 
 {% block body_block %}
@@ -78,7 +74,12 @@
 				</tr>
 			</table>
 		</div>
-		<div class="col-xs-6"><font size=4>Best rated picture: </font><br /><img src="{{ MEDIA_URL }}{{best_picture}}" alt="{{userprofile}}'s best picture" style="max_height: 200px; max_width: 200px; width: 100%; height: 100%;" />
+		<div class="col-xs-6">
+			{% if images_number != 0 %}
+				<font size=4>Best rated picture: </font><br /><img src="{{ MEDIA_URL }}{{best_picture}}" alt="{{userprofile}}'s best picture" style="max_height: 200px; max_width: 200px; width: 100%; height: 100%;" />
+			{% else %}
+				<center><font size=4>This user has not posted any pictures</font></center>
+			{% endif %}
 		</div>
 	</div>
 	<a href="{% url 'main' %}">Return to the main page</a> 

@@ -53,9 +53,24 @@ def past(request):
     print(var)
     response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
+
+def all(request, word):
+    context_dict = {}
+    word = Word.objects.get(text=word)
+    context_dict["word"] = word
+    w = Competition.objects.get(word=word)
+    context_dict["competition"] = w
+    image = Image.objects.filter(related_word=word)
+    image_rows = []
+    for i in range(0, len(image), 3):
+        image_rows.append(image[i:i+3])
+    context_dict["image_rows"] = image_rows
+    response = render(request, 'WordHuntApp/all.html',context_dict)
+    return response
     
 def leaderboard(request):
     users = UserProfile.objects.all()
+    users = users.order_by('rank')
     numbers = get_number_of_user_images(users)
     results = list(zip(users, numbers))
     for result in results:
@@ -233,7 +248,7 @@ def current(request, username):
         auth = False
     else:
         auth = True
-		
+        
     context_dict["auth"] = auth
     existing_image = None
     try:
@@ -269,6 +284,7 @@ def current(request, username):
                     if existing_image:
                         existing_image.delete()
 
+                    
                     userprofile.currently_participates = True
                     userprofile.save()
                     image.save()
@@ -287,6 +303,7 @@ def current(request, username):
     context_dict["form"] = form
 
     return render(request, 'WordHuntApp/userCurrent.html', context_dict)
+
 
 
 def settings(request, username):
@@ -329,8 +346,10 @@ def uploads(request, username):
         else:
             print(form.errors)
 
+    images = Image.objects.filter(user = userprofile.user)
+
     return render(request, 'WordHuntApp/userAllPictures.html',
-        {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+        {'userprofile': userprofile, 'selecteduser': user, 'form': form, 'images': images})
     
 def user_logout(request):
     logout(request)

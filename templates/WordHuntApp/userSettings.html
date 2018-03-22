@@ -4,12 +4,8 @@
 {% block title_block %}
     - {{userprofile}} Settings
 {% endblock %}
+
 {% block head_block %}
-    <style>
-            a {color: black;}
-            a:hover, a:active {color: black;}
-            a:visited {color: #b4b4b4;}
-    </style>
 {% endblock %}
 
 {% block body_block %}
@@ -28,58 +24,8 @@
             </div>
         </div>
         <br />
-
-        <div class="form-group">
-            Change username: <input type="text" name="username" value="Username"/>
-            <button type="button" class ="btn btn-success">Change Username</button><br>
-            <br>
-            Change password:
-            <input type="password" name="password" value="Password"/>
-            <button type="button" class ="btn btn-success">Change Password</button>
-        </div>
-        <br>
-
-    <!-- DELETING AN ACCOUNT -->
-        Delete account <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">Delete Account</button>
-        <div class="modal fade" id="delete" role="dialog">
-            <div class="modal-dialog">
-    <!-- Modal content -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        Are you sure you want to delete this account? This process is irreversible.
-                    </div>
-                    <div class="modal-body">
-                        <center>
-                            <button type="button" class="btn btn-danger">Yes</button>
-                            <button type="button" class="btn btn-success">No</button>
-                        </center>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="alert alert-danger">
-            <strong> Warning!</strong> This will permanently delete your account, your rank and all pictures uploaded using this account.
-        </div>
-        <a href="{% url 'main' %}">Return to the main page</a> 
-    {% else %}
-        <div class="row">
-            <div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
-            <div class="col-xs-8">
-                <span style="float: right; margin-right: 5%">
-                    <ul class="nav nav-tabs">
-                        <li><a href="{% url 'stats' userprofile %}">Stats</a></li>
-                        <li><a href="{% url 'current' userprofile %}">Current Word</a></li>
-                        <li><a href="{% url 'uploads' userprofile %}">Uploaded Images</a></li>
-                        <li class="active"><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
-                    </ul>
-                </span>
-            </div>
-            <td style="width: 25%">You do not have permission to view this page</td>
-        </div>
-        <br />
-    {% endif %}
+	<center><a href="{% url 'auth_password_change' %}"><button type="button" class="btn btn-success">Change Password</button></a></center>
+	{% endif %}
+  
 {% endblock %}
+

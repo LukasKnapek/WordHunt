@@ -7,9 +7,6 @@
 {% endblock %}
 
 {% block head_block %}
-	<style>
-		a {color: black;}
-	</style>
 {% endblock %}
 
 {% block body_block %}
@@ -18,18 +15,18 @@
 
 	<table class="table table-bordered">
 		<tr style="background-color: #c9ff99; text-color: white;">
-			<td style="width: 10%">Rank</td>
-			<td>Name</td>
-			<td style="width: 25%">Number of Pictures Uploaded</td>
-			<td style="width: 15%">Points</td>
+			<td style="width: 10%"><center>Rank</center></td>
+			<td><center>Name</center></td>
+			<td style="width: 25%"><center>Number of Pictures Uploaded</center></td>
+			<td style="width: 15%"><center>Points</center></td>
 		</tr>
 		{% if results %}
 			{% for user, number in results %}
 				<tr>
-					<td>{{user.rank}}</td>
+					<td><center>{{user.rank}}</center></td>
 					<td><a href="{% url 'stats' user %}">{{user}}</a></td>
-					<td>{{number}}</td>
-					<td>{{user.total_points}}</td>
+					<td><center>{{number}}</center></td>
+					<td><center>{{user.total_points}}</center></td>
 				</tr>
 			{% endfor %}
 		{% endif %}

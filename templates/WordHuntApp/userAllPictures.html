@@ -7,11 +7,6 @@
 {% endblock %}
 
 {% block head_block %}
-	<style>
-			a {color: black;}
-			a:hover, a:active {color: black;}
-			a:visited {color: #b4b4b4;}
-	</style>
 {% endblock %}
 
 {% block body_block %}
@@ -28,26 +23,21 @@
 			</span>
 		</div>
 	</div>
-	<table class="table" style="width: 100%; height: 480px">
-		<tr>
-			<td> PICTURE 1 <br> <center>WORD 1</center> </td>
-			<td> PICTURE 2 <br> <center>WORD 2</center> </td>
-			<td> PICTURE 3 <br> <center>WORD 3</center> </td>
-			<td> PICTURE 4 <br> <center>WORD 4</center> </td>
-		</tr>
-		<tr>
-			<td> PICTURE 5 <br> <center>WORD 5</center> </td>
-			<td> PICTURE 6 <br> <center>WORD 6</center> </td>
-			<td> PICTURE 7 <br> <center>WORD 7</center> </td>
-			<td> PICTURE 8 <br> <center>WORD 8</center> </td>
-		</tr>
-		<tr>
-			<td> PICTURE 9 <br> <center>WORD 9</center> </td>
-			<td> PICTURE 10 <br> <center>WORD 10</center> </td>
-			<td> PICTURE 11 <br> <center>WORD 11</center> </td>
-			<td> PICTURE 12 <br> <center>WORD 12</center> </td>
-		</tr>
-	</table>
+	<div class="row">
+		{% for image in images %}
+			<div class="col-xs-4">
+				<a href="{% url 'word' image.user image.related_word %}"><img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/></a>
+				<center>
+				<a href="{% url 'stats' image.related_word %}">{{image.related_word}}</a>
+				</center>
+			</div>
+		{% endfor %}
+		{% if images|length == 0 %}
+			<div class="col-xs-12">
+				<center><p>There are no pictures to display</p></center>
+			</div>
+		{% endif %}
+	</div>
 
 <!-- USING AJAX(?). First check if there is more than 12 pictures. If yes create a pagination button and when clicked reload pictures starting from the next group-->
 			
