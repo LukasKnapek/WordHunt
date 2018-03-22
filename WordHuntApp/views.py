@@ -45,6 +45,7 @@ def past(request):
         pictures_number.append(len(Image.objects.filter(related_word=competitions.word)))
     var = list(zip(competition,pictures_number))
     context_dict = {'competitions': var}
+    print(var)
     response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
     
@@ -100,11 +101,10 @@ def user_login(request):
 
 
 def word(request, image_id):
-    
+    w = Competition.objects.get(word=image_id)
     response = render(request, 'WordHuntApp/viewImage.html')
     return response
     
-@login_required
 def stats(request, username):
     try:
         user = User.objects.get(username=username)
@@ -166,7 +166,13 @@ def current(request, username):
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         return redirect('main')
-
+        
+    if(user != request.user):
+        auth = False
+    else:
+        auth = True
+		
+    context_dict["auth"] = auth
     existing_image = None
     try:
         existing_image = Image.objects.get(user=user)
@@ -226,10 +232,13 @@ def settings(request, username):
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         return redirect('main')
-    
+    if(user != request.user):
+        auth = False
+    else:
+        auth = True
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
     form = UserProfileForm()
-
+    
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
         if form.is_valid():
@@ -239,7 +248,7 @@ def settings(request, username):
             print(form.errors)
 
     return render(request, 'WordHuntApp/userSettings.html',
-        {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+        {'userprofile': userprofile, 'selecteduser': user, 'form': form, 'auth':auth})
     
 def uploads(request, username):
     try:
