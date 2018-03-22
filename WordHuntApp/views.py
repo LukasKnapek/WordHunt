@@ -46,7 +46,11 @@ def past(request):
     
 def leaderboard(request):
     users = UserProfile.objects.all()
-    response = render(request, 'WordHuntApp/leaderboards.html',{'users': users, 'images': images})
+    numbers = get_number_of_user_images(users)
+    results = list(zip(users, numbers))
+    for result in results:
+         print(result)
+    response = render(request, 'WordHuntApp/leaderboards.html',{'users': users, 'results': results})
     return response
     
 def search(request):
@@ -91,7 +95,8 @@ def user_login(request):
         return render(request, 'WordHuntApp/main.html', {})
 
 
-def word(request):
+def word(request, image_id):
+    
     response = render(request, 'WordHuntApp/viewImage.html')
     return response
     

@@ -14,9 +14,9 @@
 	<div class="row">
 		{% for image in images %}
 			<div class="col-xs-4">
-				<img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/>
+				<a href="{% url 'word' image.id %}"><img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/></a>
 				<center>
-				{{image.user}}
+				<a href="{% url 'stats' image.user %}">{{image.user}}</a>
 				</center>
 			</div>
 		{% endfor %}

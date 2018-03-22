@@ -2,7 +2,7 @@
 	{% for user in users %}
 		<tr>
 			<td>{{user.rank}}</td>
-			<td><a href="{% url 'main' %}" style="color: black">{{user}}</a></td>
+			<td><a href="{% url 'stats' user %}" style="color: black">{{user}}</a></td>
 			<td>{{user.total_points}}</td>
 		</tr>
 	{% endfor %}

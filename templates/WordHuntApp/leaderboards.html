@@ -23,12 +23,12 @@
 			<td style="width: 25%">Number of Pictures Uploaded</td>
 			<td style="width: 15%">Points</td>
 		</tr>
-		{% if users %}
-			{% for user in users %}
+		{% if results %}
+			{% for user, number in results %}
 				<tr>
 					<td>{{user.rank}}</td>
 					<td><a href="{% url 'stats' user %}">{{user}}</a></td>
-					<td>{{user.images}}</td>
+					<td>{{number}}</td>
 					<td>{{user.total_points}}</td>
 				</tr>
 			{% endfor %}
