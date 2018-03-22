@@ -45,7 +45,7 @@
     <h4><b>Current Submission</b></h4>
 
 
-            Current picture rating: <b>{{ existing_image.avg_rating }}</b><br>
+            Current picture rating: <b>{{ avg_rating }}</b><br>
             Current competition rank: <b>{{ userprofile.competition_rank }}</b><br/><br/>
 
             <div class="row">
@@ -74,7 +74,7 @@
                             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
                         </script>
                     {% else %}
-                        No location!
+                        No location provided.
                     {% endif %}
                 </div>
             </div>

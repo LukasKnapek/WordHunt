@@ -230,7 +230,7 @@ def stats(request, username):
     return render(request, 'WordHuntApp/userMain.html',
         {'userprofile': userprofile, 'selecteduser': user, 'form': form,
          'images_number': images_number, 'rated': rated, 'commented': commented,
-         'average': average, 'best_rating': best_rating, 'best_picture': best_picture})
+         'average': "{0:.2f}".format(average), 'best_rating': "{0:.2f}".format(best_rating), 'best_picture': best_picture})
 
 
 def current(request, username):
@@ -255,6 +255,7 @@ def current(request, username):
         existing_image = Image.objects.get(user=user)
         context_dict["existing_image"] = existing_image
         context_dict["currently_participates"] = True
+        context_dict["avg_rating"] = "{0:.2f}".format(existing_image.avg_rating)
     except Image.DoesNotExist:
         pass
 

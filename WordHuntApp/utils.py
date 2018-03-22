@@ -77,7 +77,7 @@ def update_competition_ranks():
 def search_for_users(query):
     results = []
     for user in UserProfile.objects.all():
-        if query in str(user): results.append(user)
+        if query in str(user).lower(): results.append(user)
     return results
 
 def get_number_of_user_images(user_profiles):

@@ -27,7 +27,7 @@
 			<font size=6>{{word}}</font>
 			<p> by <a href="{% url 'stats' profile_user %}">{{ profile_user }}</a>
 			</br>
-			<a href="LINKTOSEARCHWORD">Go back to all {{ word }} pictures</a>
+			<a href="{% url 'all' word %}">Go back to all {{ word }} pictures</a>
 		</div>
 		<div class="col-xs-2">
 			<span style="margin-right: 10%;"><b>Rate:</b></span></br>
