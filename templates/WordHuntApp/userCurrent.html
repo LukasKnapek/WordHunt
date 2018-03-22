@@ -13,15 +13,11 @@
         height: 500px;
         width: 500px;
        }
-    a {color: black;}
-    a:hover, a:active {color: black;}
-    a:visited {color: #b4b4b4;}
     </style>
 {% endblock %}
 
 
 {% block body_block %}
-    {% if auth == True %}
         <div class="row">
             <div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
             <div class="col-xs-8">
@@ -83,7 +79,7 @@
 
 
         <hr/>
-
+		{% if auth == True %}
         <!-- Replace image section -->
 
         <form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}", enctype="multipart/form-data">
@@ -120,10 +116,11 @@
             {% csrf_token %}
             <button type="submit" name="delete" value="true" class="btn btn-danger">Delete</button>
         </form>
+		{% endif %}
 
 
             {% else %}
-
+		{% if auth == True %}
             <form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}" enctype="multipart/form-data">
                 <h2>{{ status }}</h2>
                 <h3 class="form-signin-heading">Upload Image</h3>
@@ -149,26 +146,11 @@
                 <button class="btn btn-primary" type="submit" name="delete_image">Upload</button>
             </form>
                 <br/><br/>
-            {% endif %}
+		{% else %}
+		<p> This user isn't taking part in the competition yet </p>
+            	{% endif %}
 
-    <br/>
-    <br/>
-    {% else %}
-        <div class="row">
-            <div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
-            <div class="col-xs-8">
-                <span style="float: right; margin-right: 5%">
-                    <ul class="nav nav-tabs">
-                        <li><a href="{% url 'stats' userprofile %}">Stats</a></li>
-                        <li class="active"><a href="{% url 'current' userprofile %}">Current Word</a></li>
-                        <li><a href="{% url 'uploads' userprofile %}">Uploaded Images</a></li>
-                        <li><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
-                    </ul>
-                </span>
-            </div>
-			<td style="width: 25%">You do not have permission to view this page</td>
-        </div>
+	{% endif %}
         <br/>
             <a href="{% url 'main' %}">Return to the main page</a> 
-    {% endif %}
 {% endblock %}

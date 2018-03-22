@@ -21,16 +21,18 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<!-- MODIFICATIONS TO THE GRID -->
+		{% block head_block %}
 		<style>
-			.col-xs-0-2 {width: 2%;}
-			.col-xs-3-8 {width: 33.333%;}
 			a {color: #ffffff;}
 			a:hover, a:active {color: #f0f0f0;}
 			a:visited {color: #b4b4b4;}
 		</style>
-		
-		{% block head_block %}
+
 		{% endblock %}
+		<style>
+			.col-xs-0-2 {width: 2%;}
+			.col-xs-3-8 {width: 33.333%;}
+		</style>
 
 	</head>
 
@@ -78,7 +80,6 @@
 							{% endif %}
 							<a href="{% url 'stats' user.username %}"><button type="button" class="btn btn-success">Profile</button></a>
 							<a href="{% url 'auth_logout' %}?next=/"><button type="button" class="btn btn-warning">Logout</button></a>
-							<a href="{% url 'auth_password_change' %}"><button type="button" class="btn btn-success">Change Password</button></a>
 
 						{% else %}
 						<center>

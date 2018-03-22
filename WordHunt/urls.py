@@ -36,5 +36,5 @@ urlpatterns = [
     url(r'^register/$',views.register, name='register'),
     url(r'^word/(?P<username>[\w\-]+)/(?P<word>[\w\-]+)/$', views.word, name='word'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    url(r'^all/(?P<word>[\w\-]+)/$',views.all, name='all'),
+url(r'^all/(?P<word>[\w\-]+)/$',views.all, name='all'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
