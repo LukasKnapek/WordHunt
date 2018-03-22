@@ -1,69 +1,66 @@
-﻿<!DOCTYPE html>
-
-<html lang="en">
-
-	<head>
-		<title>WordHunt</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+﻿{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
 
 
-	<!-- bootstrap CDN obtained from w3schools.com -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block title_block %}
+	- Leaderboards
+{% endblock %}
 
+{% block head_block %}
+	<style>
+		a {color: black;}
+	</style>
+{% endblock %}
 
-	<!-- MODIFICATIONS TO THE GRID -->
-		<style>
-			.col-xs-0-2 {width: 2%;}
-			.col-xs-3-8 {width: 33.333%;}
-		</style>
-
-	</head>
-
-	<body style="font-family: Verdana, Helvetica, sans-serif;">
-		<div class="container-fluid">
-
-			<div class="row">
-				<div class="col-xs-10">
-					<font size=6>"WORD"</font></br>
-					<a href="LINKTOSEARCHWORD">Go back to all "WORD" pictures</a>
-				</div>
-				<div class="col-xs-2">
-					<span style="float: right; margin-right: 10%;">Rate this picture:</br>STARS</span>
-				</div>
-			</div>
-			<br>
-			<font size=8>PICTURE HERE</font>
-			<br>
-			<div class="row">
-				<div class="col-xs-4"> Map (will need some help with this part)</div>
-				<div class="col-sx-8">
+{% block body_block %}
+	<div class="row">
+		<div class="col-xs-10">
+			<font size=6>{{word}}</font>
+			<p> by <a href="{% url 'stats' userprofile.user %}">{{userprofile}}</a>
+			</br>
+			<a href="LINKTOSEARCHWORD">Go back to all {{word}} pictures</a>
+		</div>
+		<div class="col-xs-2">
+			<span style="float: right; margin-right: 10%;">Rate this picture:</br>STARS</span>
+		</div>
+	</div>
+	<br>
+	<img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/>
+	<br>
+	<div class="row">
+		<div class="col-xs-4"> Map (will need some help with this part)</div>
+		{% if comments %}
+			<div class="col-sx-8">
+				{% for comment in comments %}
 					<div class="media">
 						<div class="media-left">
-							<div class="media-body">
-								<h4 class="media-heading">USERNAME<small> at TIME, DATE:</small></h4>
-								<p>COMMENT SHOWN HERE</p>
+							<div class="media-body" align="right">
+								<h4 class="media-heading">{{comment.user}}<small> on {{comment.creation_date}}:</small></h4>
+								<p>{{comment.text}}</p>
 							</div>
 						</div>
-						<div class="media">
-							<div class="media-left">
-								<div class="media-body">
-									<h4 class="media-heading">USERNAME<small> at TIME, DATE:</small></h4>
-									<p>COMMENT SHOWN HERE</p>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<textarea class="form-control" rows="2" style="width: 60%;"></textarea>
-							<button type="button" class="btn btn-success">Comment</button>
-						</div>
-					</div>
+					</div>					
+				{% endfor %}
+				<div class="form-group">
+					<textarea class="form-control" rows="2" style="width: 60%; float: right;"></textarea><br>
+					<button type="button" class="btn btn-success" style="float: right;">Comment</button>
 				</div>
 			</div>
+		{% else %}
+			<div class="col-sx-8">
+				<p>No Comments for this picture.</p>
+			</div>
+			<div class="media">
+			<div class="form-group">
+					</br>
+					<button type="button" class="btn btn-success" style="float: right;">Comment</button>
+					<textarea class="form-control" rows="2" style="width: 60%; float: right;"></textarea>
+				</div>
+			</div>
+		{% endif %}
 		</div>
-	</body>
-</html>
+				
+				
+		
+	<a href="{% url 'main' %}">Return to the main page</a>
+{% endblock %}

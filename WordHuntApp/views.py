@@ -99,9 +99,18 @@ def user_login(request):
         return render(request, 'WordHuntApp/main.html', {})
 
 
-def word(request, image_id):
+def word(request, username, word):
+    user = User.objects.get(username=username)
+    userprofile = UserProfile.objects.get(user=user)
+    image = Image.objects.filter(related_word=word).get(user=user)
+    competition = Competition.objects.get(word = image.related_word)
+    comments = Comment.objects.filter(image=image)
+    rating = Rating.objects.filter(image=image)
+
     
-    response = render(request, 'WordHuntApp/viewImage.html')
+    response = render(request, 'WordHuntApp/viewImage.html', {'image': image,
+                    'word':word, 'user': user, 'competiton': competition, 'comments': comments,
+                    'rating': rating, 'userprofile': userprofile})
     return response
     
 @login_required
@@ -180,7 +189,7 @@ def current(request, username):
     form = ImageUploadForm()
 
     context_dict["userprofile"] = userprofile
-    context_dict["user"] = user
+    context_dict["selecteduser"] = user
     context_dict["word"] = word.text
 
     if request.method == 'POST':
