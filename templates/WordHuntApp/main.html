@@ -1,6 +1,21 @@
 {% extends 'WordHuntApp/base.html' %}
 {% load staticfiles %}
 
+{% block head_block %}
+	<style>
+		.ratio {
+			position:relative;
+			width: 100%;
+			height: 0;
+			padding-bottom: 60% ; /* % of width, defines aspect ratio*/
+
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+		}
+	</style>
+{% endblock %}
+
 {% block body_block %}
 	<div class="row">
 		<div class="col-xs-8">
@@ -11,16 +26,56 @@
 		</div>
 	</div>
 	<hr>
-	<div class="row">
-		{% for image in images %}
-			{% if image.related_word.text == word %}
-			<div class="col-xs-4">
-				<a href="{% url 'word' image.user image.related_word %}"><img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/></a>
-				<center>
-				<a href="{% url 'stats' image.user %}">{{image.user}}</a>
-				</center>
+	{% for row in image_rows %}
+		<div class="row">
+			{% for image in row %}
+			<div class="col-md-4">
+				<div class="thumbnail">
+					<a href="{% url 'word' image.user image.related_word %}">
+						<div class="ratio" style="background-image:url('{{ MEDIA_URL}}{{ image.uploaded_image }}')">
+
+						</div>
+					</a>
+					<center>
+						<a href="{% url 'stats' image.user %}">{{image.user}}</a>
+					</center>
+				</div>
 			</div>
-			{% endif %}
-		{% endfor %}
-	</div>
+			{% endfor %}
+		</div>
+	{% endfor %}
+
 {% endblock %}
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/w3images/lights.jpg">
+        <img src="/w3images/lights.jpg" alt="Lights" style="width:100%">
+        <div class="caption">
+          <p>Lorem ipsum...</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/w3images/nature.jpg">
+        <img src="/w3images/nature.jpg" alt="Nature" style="width:100%">
+        <div class="caption">
+          <p>Lorem ipsum...</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/w3images/fjords.jpg">
+        <img src="/w3images/fjords.jpg" alt="Fjords" style="width:100%">
+        <div class="caption">
+          <p>Lorem ipsum...</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

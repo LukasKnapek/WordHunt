@@ -22,10 +22,15 @@ def main(request):
     if is_competition_active():
         context_dict = {"word": get_current_word().text}
         images = Image.objects.filter(related_word=get_current_word().text)
-        context_dict["images"] = images
         time_left = Competition.objects.get(word = get_current_word()).end_date.replace(tzinfo=pytz.UTC) - datetime.datetime.now().replace(tzinfo=pytz.UTC)
         context_dict["hours_left"] = time_left.seconds//3600
         context_dict["minutes_left"] = (time_left.seconds//60)%60
+
+        image_rows = []
+        for i in range(0, len(images), 3):
+            image_rows.append(images[i:i+3])
+
+        context_dict["image_rows"] = image_rows
     else:
         context_dict = {"word": "No competition at the moment!"}
         context_dict["images"] = None
