@@ -73,11 +73,7 @@
 						<center>
 							<h4><b>{{ user }}</b></h4>
 							<p> Current competition status:</p>
-							{% if user.currently_participates %}
-								<p style="color: #5cb85c;"><b>Entry Submitted</b></p>
-							{% else %}
-								<p style="color: #d9534f;"><b>Entry NOT Submitted</b></p>
-							{% endif %}
+								<p style="color: {% participation_color %};"><b>{% participation_text %}</b></p>
 							<a href="{% url 'stats' user.username %}"><button type="button" class="btn btn-success">Profile</button></a>
 							<a href="{% url 'auth_logout' %}?next=/"><button type="button" class="btn btn-warning">Logout</button></a>
 

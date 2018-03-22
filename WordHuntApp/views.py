@@ -208,9 +208,9 @@ def stats(request, username):
     best_picture = None
     for image in Image.objects.filter(user=user):
         total_rating = total_rating + image.avg_rating
-        if image.avg_rating > best_rating:
+        if image.avg_rating >= best_rating:
             best_rating = image.avg_rating
-            best_picture = image.uploaded_image        
+            best_picture = image.uploaded_image
     try:
         average = total_rating/images_number
     except ZeroDivisionError:
@@ -297,6 +297,7 @@ def current(request, username):
                             image.save()
 
                     context_dict["existing_image"] = image
+                    update_competition_ranks()
             else:
                 context_dict["status"] = "Invalid submission"
 

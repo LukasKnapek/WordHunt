@@ -26,7 +26,9 @@
                         <li><a href="{% url 'stats' userprofile %}">Stats</a></li>
                         <li class="active"><a href="{% url 'current' userprofile %}">Current Word</a></li>
                         <li><a href="{% url 'uploads' userprofile %}">Uploaded Images</a></li>
-                        <li><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
+                    {% if user == userprofile.user %}
+						<li><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
+					{% endif %}
                     </ul>
                 </span>
             </div>
