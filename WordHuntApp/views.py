@@ -145,26 +145,69 @@ def stats(request, username):
         {'userprofile': userprofile, 'selecteduser': user, 'form': form,
          'images_number': images_number, 'rated': rated, 'commented': commented,
          'average': average, 'best_rating': best_rating, 'best_picture': best_picture})
-    
+
+
 def current(request, username):
+    context_dict = {}
+    context_dict["currently_participates"] = False
+
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         return redirect('main')
-    
-    userprofile = UserProfile.objects.get_or_create(user=user)[0]
-    form = UserProfileForm()
+
+    existing_image = None
+    try:
+        existing_image = Image.objects.get(user=user)
+        context_dict["existing_image"] = existing_image
+        context_dict["currently_participates"] = True
+    except Image.DoesNotExist:
+        pass
+
+    userprofile = UserProfile.objects.get(user=user)
+    word = get_current_word()
+    form = ImageUploadForm()
+
+    context_dict["userprofile"] = userprofile
+    context_dict["user"] = user
+    context_dict["word"] = word.text
 
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
-        if form.is_valid():
-            form.save(commit=True)
-            return redirect('current', user.username)
+        if request.POST.get("delete") == "true":
+            existing_image.delete()
+            userprofile.currently_participates = False
+            userprofile.save()
         else:
-            print(form.errors)
+            form = ImageUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                if is_competition_active():
+                    image = form.save(commit=False)
+                    image.user = request.user
+                    image.related_word = get_current_word()
+                    image.avg_rating = 0.0
 
-    return render(request, 'WordHuntApp/userCurrent.html',
-        {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+                    # If the user has a previously uploaded image, get rid of it first
+                    if existing_image:
+                        existing_image.delete()
+
+                    userprofile.currently_participates = True
+                    userprofile.save()
+
+                    if request.POST["checkbox_scrap_gps"] == "on":
+                        latitude, longitude = get_image_coordinates(image.uploaded_image.path)
+                        if latitude and longitude:
+                            image.latitude = latitude
+                            image.longitude = longitude
+
+                    image.save()
+                    context_dict["existing_image"] = image
+            else:
+                context_dict["status"] = "Invalid submission"
+
+    context_dict["form"] = form
+
+    return render(request, 'WordHuntApp/userCurrent.html', context_dict)
+
 
 def settings(request, username):
     try:

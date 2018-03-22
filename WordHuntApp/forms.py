@@ -3,7 +3,7 @@ from WordHuntApp.models import *
 
 
 class ImageUploadForm(forms.ModelForm):
-    uploaded_image = forms.ImageField(label="Image")
+    uploaded_image = forms.ImageField(label="")
     latitude = forms.DecimalField(label="Latitude in decimal degrees (optional)",
                                   max_digits=11,
                                   decimal_places=8,
