@@ -147,8 +147,18 @@ def word(request, username, word):
             print(user_rating.rating)
         except Rating.DoesNotExist:
             user_rating = None
+
+        if request.method == "POST":
+            comment_text = request.POST.get("comment")
+
+            c = Comment.objects.create(user=user,
+                                       image=image,
+                                       creation_date=datetime.datetime.now(pytz.utc),
+                                       text = comment_text)
+
     else:
         context_dict["rating_readonly"] = "true"
+
 
     if image.latitude and image.longitude:
         context_dict["latitude"] = image.latitude

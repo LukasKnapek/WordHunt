@@ -15,9 +15,12 @@
     <link href="{% static 'css/rateit.css' %}" rel="stylesheet">
    <style>
 	  #map {
-		height: 200px;
-		width: 300px;
+		height: 250px;
+		width: 250px;
 	   }
+	   .form-inline .form-group input {
+			width:140px;
+		}
 	</style>
 {% endblock %}
 
@@ -30,78 +33,83 @@
 			<a href="LINKTOSEARCHWORD">Go back to all {{ word }} pictures</a>
 		</div>
 		<div class="col-xs-2">
-			<span style="margin-right: 10%;">Rate:</span></br>
-			<div id="{{ image.id }}_rating" class="rateit"
-			 data-rateit-mode="font"
-			 data-rateit-resetable="false"
-			 date-rateit-step="1"
-			 data-rateit-value="{{ user_rating }}"
-			 data-rateit-readonly="{{ rating_readonly }}"
-			 style="font-size:30px">
-			</div>
-			Average rating: <span id="average_rating"><b>{{ avg_rating }}</b></span>
+			<span style="margin-right: 10%;"><b>Rate:</b></span></br>
+			{% if user.is_authenticated %}
+				<div id="{{ image.id }}_rating" class="rateit"
+				 data-rateit-mode="font"
+				 data-rateit-resetable="false"
+				 date-rateit-step="1"
+				 data-rateit-value="{{ user_rating }}"
+				 data-rateit-readonly="{{ rating_readonly }}"
+				 style="font-size:30px">
+				</div>
+				Average rating: <span id="average_rating"><b>{{ avg_rating }}</b></span>
+			{% else %}
+				Log in to rate images!
+			{% endif %}
 		</div>
+
+
 	</div>
-	<img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{ word }}" style=" width: 100%; height: 100%; padding: 5%"/>
-	<br>
+	<div class="row">
+		 <div class="col-xs-12">
+			 	<img src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{ word }}" style=" width: 100%; padding: 5%"/>
+		 </div>
+	</div>
 	<div class="row">
 		<div class="col-xs-4">
+		<b>Image location</b><br/>
 		{% if latitude and longitude %}
-				Image location:
-			    <div id="map"></div>
-				<script>
-				  function initMap() {
-					var marketLocation = {lat: {{ latitude }}, lng: {{ longitude }} };
-					var map = new google.maps.Map(document.getElementById('map'), {
-					  zoom: 4,
-					  center: marketLocation
-					});
-					var marker = new google.maps.Marker({
-					  position: marketLocation,
-					  map: map
-					});
-				  }
-				</script>
-			    <script async defer
-					src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
-				</script>
+			<div id="map"></div>
+			<script>
+			  function initMap() {
+				var marketLocation = {lat: {{ latitude }}, lng: {{ longitude }} };
+				var map = new google.maps.Map(document.getElementById('map'), {
+				  zoom: 4,
+				  center: marketLocation
+				});
+				var marker = new google.maps.Marker({
+				  position: marketLocation,
+				  map: map
+				});
+			  }
+			</script>
+			<script async defer
+				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
+			</script>
 		{% else %}
-			No location provided.
+			<p>No location provided.</p>
 		{% endif %}
+		</div>
+		<div class="col-xs-8">
+			<b>Comments</b>
+			<div class="media border" style="border: 1px solid black; overflow-y:auto; height:250px; margin-top:0px;">
+				<div class="media-body" style="padding: 5px">
+				  {% for comment in comments %}
+						<h4 class="media-heading">{{ comment.user }} <small><i> on {{ comment.creation_date }} </i></small></h4>
+      					<p>- {{ comment.text }}</p>
+				  {% endfor %}
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				{% if user.is_authenticated %}
+					<form class="form-group" id="comment_form" method="POST">
+					  {% csrf_token %}
+					  <div class="col-xs-10">
+						  <input type="text" name="comment" class="form-control" placeholder="Leave a Comment">
+					  </div>
+					  <div class="col-xs-2">
+						  <button type="submit" class="btn btn-default btn-block">Submit</button>
+					  </div>
+					</form>
+				{% else %}
+					Log in to leave comments!
+				{% endif %}
+			</div>
+		</div>
+	</div>
 
-		</div>
-		{% if comments %}
-			<div class="col-sx-8">
-				{% for comment in comments %}
-					<div class="media">
-						<div class="media-left">
-							<div class="media-body" align="right">
-								<h4 class="media-heading">{{comment.user}}<small> on {{comment.creation_date}}:</small></h4>
-								<p>{{comment.text}}</p>
-							</div>
-						</div>
-					</div>					
-				{% endfor %}
-				<div class="form-group">
-					<textarea class="form-control" rows="2" style="width: 60%; float: right;"></textarea><br>
-					<button type="button" class="btn btn-success" style="float: right;">Comment</button>
-				</div>
-			</div>
-		{% else %}
-			<div class="col-sx-8">
-				<p>No Comments for this picture.</p>
-			</div>
-			<div class="media">
-			<div class="form-group">
-					</br>
-					<button type="button" class="btn btn-success" style="float: right;">Comment</button>
-					<textarea class="form-control" rows="2" style="width: 60%; float: right;"></textarea>
-				</div>
-			</div>
-		{% endif %}
-		</div>
-				
-				
 	<br/>
 	<a href="{% url 'main' %}">Return to the main page</a>
 {% endblock %}
