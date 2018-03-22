@@ -83,7 +83,7 @@ class Rating(models.Model):
     rating = models.FloatField()
 
     def __str__(self):
-        return "%d/5 - left by %s for %s" % (self.rating, self.user, self.image)
+        return "%.1f/5 - left by %s for %s" % (self.rating, self.user, self.image)
 
 
 

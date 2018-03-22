@@ -102,17 +102,54 @@ def user_login(request):
 
 
 def word(request, username, word):
-    user = User.objects.get(username=username)
-    userprofile = UserProfile.objects.get(user=user)
-    image = Image.objects.filter(related_word=word).get(user=user)
-    competition = Competition.objects.get(word = image.related_word)
-    comments = Comment.objects.filter(image=image)
-    rating = Rating.objects.filter(image=image)
+    context_dict = {}
 
+    profile_user = User.objects.get(username=username)
+    user = request.user
+    image = Image.objects.get(user=profile_user, related_word=word)
+    comments = Comment.objects.filter(image=image)
+
+    context_dict["profile_user"] = profile_user
+    context_dict["image"] = image
+    context_dict["comments"] = comments
+    context_dict["word"] = word
+    context_dict["avg_rating"] = "{0:.2f}".format(image.avg_rating)
+    context_dict["rating_readonly"] = "false"
+
+    if user.is_authenticated():
+        if (image.user == user):
+            context_dict["rating_readonly"] = "true"
+
+        if request.is_ajax():
+            image_id = request.GET.get("image_id")
+            image = Image.objects.get(id=image_id)
+            rating_value = request.GET.get("rating")
+
+            # If the user has already rated the image, just change the value
+            try:
+                r = Rating.objects.get(image=image, user=user)
+                r.rating = rating_value
+                r.save()
+            except Rating.DoesNotExist:
+                r = Rating.objects.create(image=image, user=user, rating=rating_value)
+            calculate_new_average_rating(image)
+
+            return HttpResponse(json.dumps({"avg_rating": image.avg_rating}), content_type="application/json")
+
+        try:
+            user_rating = Rating.objects.get(image=image, user=user)
+            context_dict["user_rating"] = user_rating.rating
+            print(user_rating.rating)
+        except Rating.DoesNotExist:
+            user_rating = None
+    else:
+        context_dict["rating_readonly"] = "true"
+
+    if image.latitude and image.longitude:
+        context_dict["latitude"] = image.latitude
+        context_dict["longitude"] = image.longitude
     
-    response = render(request, 'WordHuntApp/viewImage.html', {'image': image,
-                    'word':word, 'user': user, 'competiton': competition, 'comments': comments,
-                    'rating': rating, 'userprofile': userprofile})
+    return render(request, 'WordHuntApp/viewImage.html', context_dict)
 
     
 def stats(request, username):

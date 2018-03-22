@@ -18,5 +18,11 @@ $(document).ready(function() {
 });
 
 function updateRating(response) {
-    $("#average_rating").text(response["avg_rating"]);
+    var rating = response["avg_rating"];
+    var rounded_rating = rating.toFixed(2);
+    console.log(rounded_rating);
+
+    $("#average_rating").text(rounded_rating);
+    $("#average_rating").css("font-weight", "Bold");
+
 }

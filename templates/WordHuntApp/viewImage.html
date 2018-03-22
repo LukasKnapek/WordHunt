@@ -10,25 +10,66 @@
 	<style>
 		a {color: black;}
 	</style>
+    <script src="{% static 'js/jquery.rateit.min.js' %}"></script>
+    <script src="{% static 'js/rate.js' %}"></script>
+    <link href="{% static 'css/rateit.css' %}" rel="stylesheet">
+   <style>
+	  #map {
+		height: 200px;
+		width: 300px;
+	   }
+	</style>
 {% endblock %}
 
 {% block body_block %}
 	<div class="row">
 		<div class="col-xs-10">
 			<font size=6>{{word}}</font>
-			<p> by <a href="{% url 'stats' userprofile.user %}">{{userprofile}}</a>
+			<p> by <a href="{% url 'stats' profile_user %}">{{ profile_user }}</a>
 			</br>
-			<a href="LINKTOSEARCHWORD">Go back to all {{word}} pictures</a>
+			<a href="LINKTOSEARCHWORD">Go back to all {{ word }} pictures</a>
 		</div>
 		<div class="col-xs-2">
-			<span style="float: right; margin-right: 10%;">Rate this picture:</br>STARS</span>
+			<span style="margin-right: 10%;">Rate:</span></br>
+			<div id="{{ image.id }}_rating" class="rateit"
+			 data-rateit-mode="font"
+			 data-rateit-resetable="false"
+			 date-rateit-step="1"
+			 data-rateit-value="{{ user_rating }}"
+			 data-rateit-readonly="{{ rating_readonly }}"
+			 style="font-size:30px">
+			</div>
+			Average rating: <span id="average_rating"><b>{{ avg_rating }}</b></span>
 		</div>
 	</div>
-	<br>
-	<img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/>
+	<img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{ word }}" style=" width: 100%; height: 100%; padding: 5%"/>
 	<br>
 	<div class="row">
-		<div class="col-xs-4"> Map (will need some help with this part)</div>
+		<div class="col-xs-4">
+		{% if latitude and longitude %}
+				Image location:
+			    <div id="map"></div>
+				<script>
+				  function initMap() {
+					var marketLocation = {lat: {{ latitude }}, lng: {{ longitude }} };
+					var map = new google.maps.Map(document.getElementById('map'), {
+					  zoom: 4,
+					  center: marketLocation
+					});
+					var marker = new google.maps.Marker({
+					  position: marketLocation,
+					  map: map
+					});
+				  }
+				</script>
+			    <script async defer
+					src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
+				</script>
+		{% else %}
+			No location provided.
+		{% endif %}
+
+		</div>
 		{% if comments %}
 			<div class="col-sx-8">
 				{% for comment in comments %}
@@ -61,6 +102,6 @@
 		</div>
 				
 				
-		
+	<br/>
 	<a href="{% url 'main' %}">Return to the main page</a>
 {% endblock %}
