@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^profile/settings/(?P<username>[\w\-]+)/$',views.settings, name='settings'),
     url(r'^login/$',views.user_login, name='login'),
     url(r'^register/$',views.register, name='register'),
-	url(r'^word/$',views.word, name='word'),
+	url(r'^word/(?P<image_id>[\w\-]+)/$',views.word, name='word'),
     #url(r'^word/(?P<word>\w+)$',views.word, name='word'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

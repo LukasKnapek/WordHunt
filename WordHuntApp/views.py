@@ -40,13 +40,21 @@ def about(request):
     
 def past(request):
     competition = Competition.objects.all()
-    context_dict = {'competitions': competition}
+    pictures_number = []
+    for competitions in competition:
+        pictures_number.append(len(Image.objects.filter(related_word=competitions.word)))
+    var = list(zip(competition,pictures_number))
+    context_dict = {'competitions': var}
     response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
     
 def leaderboard(request):
     users = UserProfile.objects.all()
-    response = render(request, 'WordHuntApp/leaderboards.html',{'users': users, 'images': images})
+    numbers = get_number_of_user_images(users)
+    results = list(zip(users, numbers))
+    for result in results:
+         print(result)
+    response = render(request, 'WordHuntApp/leaderboards.html',{'users': users, 'results': results})
     return response
     
 def search(request):
@@ -91,7 +99,8 @@ def user_login(request):
         return render(request, 'WordHuntApp/main.html', {})
 
 
-def word(request):
+def word(request, image_id):
+    
     response = render(request, 'WordHuntApp/viewImage.html')
     return response
     
