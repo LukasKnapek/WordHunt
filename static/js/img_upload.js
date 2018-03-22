@@ -5,3 +5,13 @@ $(document).ready(function() {
         $("#longitude_field").prop("disabled", disable_gps_fields);
     })
 });
+
+$(document).ready(function() {
+    var image = $("#existing_image");
+    var height = image.height();
+    var width = image.width();
+
+    var map = $("#map");
+    map.css("width", width);
+    map.css("height", height);
+});

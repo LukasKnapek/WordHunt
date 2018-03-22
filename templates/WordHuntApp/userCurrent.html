@@ -4,13 +4,21 @@
 {% block title_block %}
 	- {{userprofile}} Current
 {% endblock %}
+
+
 {% block head_block %}
-	<style>
-			a {color: black;}
-			a:hover, a:active {color: black;}
-			a:visited {color: #b4b4b4;}
+    <script src="{% static 'js/img_upload.js' %}"></script>
+    <style id="map-style">
+      #map {
+        height: 500px;
+        width: 500px;
+       }
+	a {color: black;}
+	a:hover, a:active {color: black;}
+	a:visited {color: #b4b4b4;}
 	</style>
 {% endblock %}
+
 
 {% block body_block %}
 	<div class="row">
@@ -26,76 +34,123 @@
 			</span>
 		</div>
 	</div>
-	<br />
-			<font size=4><center>The current word is: {{word}}</center></font>
-			<br>
+	<br/>
 
-		{% if userprofile.currently_participates %}
-		
-					<br>
-			<h3><b> PICTURE UPLOADED VIEW</b></h3>
-			<span style="margin-left: 2%">Current picture rating: {{image.avg_rating}}</span><br>
-			<span style="margin-left: 2%">Current competition rank: #NUMBER</span><br>
-			<br>
-			<div class="row">
-				<div class="col-xs-6">
-					<font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
-					PICTURE
-				</div>
-				<div class="col-xs-6">
-					<font size=4><span style="margin-left: 2%">Location preview</span></font><br>
-					LOCATION
-				</div>
-			</div>
-			Replace picture (resets rating) 
-			<form method="post">
-				<center>
-					<input type="file" name="pic" accept="image/*">
-					<input type="submit">
-				</center>
-			</form>
-			Delete picture (withdraw from competition) <center><button type="button" class="btn btn-danger">Delete</button></center> 
-	
+    <h3 class="text-center">The current word is <b>'{{word}}'</b></h3>
+
+    <hr/>
+
+    <!-- Current image section -->
+    {% if userprofile.currently_participates %}
+
+<h4><b>Current Submission</b></h4>
+
+
+        Current picture rating: <b>{{ existing_image.avg_rating }}</b><br>
+        Current competition rank: <b>{{ userprofile.competition_rank }}</b><br/><br/>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
+                <img id="existing_image" src="{{ MEDIA_URL }}{{ existing_image.uploaded_image }}" class="img-responsive">
+            </div>
+            <div class="col-xs-6">
+                <font size=4><span style="margin-left: 2%">Location preview</span></font><br>
+                {% if existing_image.latitude %}
+                    <div id="map"></div>
+                    <script>
+                      function initMap() {
+                        var marketLocation = {lat: {{ existing_image.latitude }}, lng: {{ existing_image.longitude }} };
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                          zoom: 8,
+                          center: marketLocation
+                        });
+                        var marker = new google.maps.Marker({
+                          position: marketLocation,
+                          map: map
+                        });
+                      }
+                    </script>
+                    <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
+                    </script>
+                {% else %}
+                    No location!
+                {% endif %}
+            </div>
+        </div>
+
+
+    <hr/>
+
+    <!-- Replace image section -->
+
+    <form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}", enctype="multipart/form-data">
+        <h2>{{ status }}</h2>
+<h4><b>Replace Image</b> (causes you to lose your current rating)</h4>
+        <div class="form-group">
+            {% csrf_token %}
+            {% for field in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                    {{ field.label }}
+                    {{ field }} <br/>
+                    {{ field.errors }}
+            {% endfor %}
+
+            <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="checkbox_scrap_gps" id="checkbox_scrap_gps" class="form-check-input">
+                  Try to obtain location from the image EXIF data
+                </label>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" name="submit">Upload</button>
+    </form>
+
+    <hr/>
+
+    <!-- Delete image section -->
+    <h4><b>Delete Image</b> (withdraw from the competition)</h4>
+
+    <form role="form" id="delete_form" method="POST" action="{% url 'current' user %}">
+        {% csrf_token %}
+        <button type="submit" name="delete" value="true" class="btn btn-danger">Delete</button>
+    </form>
+
 
 		{% else %}
 
-		<font size=3><b>Upload a picture</b></font><br>
-			Path
-			<center>
-				<form action="/action_page.php">
-					<input type="file" name="pic" accept="image/*">
-					<input type="submit">
-				</form>
-			</center>
-			<br>
-			<div class="row">
-				<div class="col-xs-2">
-					Location (optional)
-				</div>
-				<div class="col-xs-2">
-					Latitude
-					<div class="form-group">
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-xs-2">
-					Longitude
-					<div class="form-group">
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-xs-6">
-				</div>
-			</div>
+		<form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}" enctype="multipart/form-data">
+			<h2>{{ status }}</h2>
+			<h3 class="form-signin-heading">Upload Image</h3>
+			<div class="form-group">
+				{% csrf_token %}
+				{% for field in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
 
-			<div class="row">
-				<div class="col-xs-2"></div>
-				<div class="col-xs-10">
-					<div class="checkbox">
-						<label><input type="checkbox" value="">Try to obtain location from the picture</label>
-					</div>
+				{% for field in form.visible_fields %}
+						{{ field.label }}
+						{{ field }} <br/>
+						{{ field.errors }}
+				{% endfor %}
+
+				<div class="form-check">
+					<label class="form-check-label">
+					  <input type="checkbox" name="checkbox_scrap_gps" id="checkbox_scrap_gps" class="form-check-input">
+					  Try to obtain location from the image EXIF data
+					</label>
 				</div>
 			</div>
+			<button class="btn btn-primary" type="submit" name="delete_image">Upload</button>
+        </form>
+			<br/><br/>
 		{% endif %}
+
+<br/>
+<br/>
 			<a href="{% url 'main' %}">Return to the main page</a> 
 {% endblock %}
