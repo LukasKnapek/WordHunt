@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-	- {{userprofile}} Current
+    - {{userprofile}} Current
 {% endblock %}
 
 
@@ -13,144 +13,162 @@
         height: 500px;
         width: 500px;
        }
-	a {color: black;}
-	a:hover, a:active {color: black;}
-	a:visited {color: #b4b4b4;}
-	</style>
+    a {color: black;}
+    a:hover, a:active {color: black;}
+    a:visited {color: #b4b4b4;}
+    </style>
 {% endblock %}
 
 
 {% block body_block %}
-	<div class="row">
-		<div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
-		<div class="col-xs-8">
-			<span style="float: right; margin-right: 5%">
-				<ul class="nav nav-tabs">
-					<li><a href="{% url 'stats' userprofile %}">Stats</a></li>
-					<li class="active"><a href="{% url 'current' userprofile %}">Current Word</a></li>
-					<li><a href="{% url 'uploads' userprofile %}">Uploaded Images</a></li>
-					<li><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
-				</ul>
-			</span>
-		</div>
-	</div>
-	<br/>
-
-    <h3 class="text-center">The current word is <b>'{{word}}'</b></h3>
-
-    <hr/>
-
-    <!-- Current image section -->
-    {% if userprofile.currently_participates %}
-
-<h4><b>Current Submission</b></h4>
-
-
-        Current picture rating: <b>{{ existing_image.avg_rating }}</b><br>
-        Current competition rank: <b>{{ userprofile.competition_rank }}</b><br/><br/>
-
+    {% if auth == True %}
         <div class="row">
-            <div class="col-xs-6">
-                <font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
-                <img id="existing_image" src="{{ MEDIA_URL }}{{ existing_image.uploaded_image }}" class="img-responsive">
-            </div>
-            <div class="col-xs-6">
-                <font size=4><span style="margin-left: 2%">Location preview</span></font><br>
-                {% if existing_image.latitude %}
-                    <div id="map"></div>
-                    <script>
-                      function initMap() {
-                        var marketLocation = {lat: {{ existing_image.latitude }}, lng: {{ existing_image.longitude }} };
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                          zoom: 8,
-                          center: marketLocation
-                        });
-                        var marker = new google.maps.Marker({
-                          position: marketLocation,
-                          map: map
-                        });
-                      }
-                    </script>
-                    <script async defer
-                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
-                    </script>
-                {% else %}
-                    No location!
-                {% endif %}
+            <div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
+            <div class="col-xs-8">
+                <span style="float: right; margin-right: 5%">
+                    <ul class="nav nav-tabs">
+                        <li><a href="{% url 'stats' userprofile %}">Stats</a></li>
+                        <li class="active"><a href="{% url 'current' userprofile %}">Current Word</a></li>
+                        <li><a href="{% url 'uploads' userprofile %}">Uploaded Images</a></li>
+                        <li><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
+                    </ul>
+                </span>
             </div>
         </div>
+        <br/>
+
+        <h3 class="text-center">The current word is <b>'{{word}}'</b></h3>
+
+        <hr/>
+
+        <!-- Current image section -->
+        {% if userprofile.currently_participates %}
+
+    <h4><b>Current Submission</b></h4>
 
 
-    <hr/>
+            Current picture rating: <b>{{ existing_image.avg_rating }}</b><br>
+            Current competition rank: <b>{{ userprofile.competition_rank }}</b><br/><br/>
 
-    <!-- Replace image section -->
-
-    <form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}", enctype="multipart/form-data">
-        <h2>{{ status }}</h2>
-<h4><b>Replace Image</b> (causes you to lose your current rating)</h4>
-        <div class="form-group">
-            {% csrf_token %}
-            {% for field in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
-                    {{ field.label }}
-                    {{ field }} <br/>
-                    {{ field.errors }}
-            {% endfor %}
-
-            <div class="form-check">
-                <label class="form-check-label">
-                  <input type="checkbox" name="checkbox_scrap_gps" id="checkbox_scrap_gps" class="form-check-input">
-                  Try to obtain location from the image EXIF data
-                </label>
+            <div class="row">
+                <div class="col-xs-6">
+                    <font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
+                    <img id="existing_image" src="{{ MEDIA_URL }}{{ existing_image.uploaded_image }}" class="img-responsive">
+                </div>
+                <div class="col-xs-6">
+                    <font size=4><span style="margin-left: 2%">Location preview</span></font><br>
+                    {% if existing_image.latitude %}
+                        <div id="map"></div>
+                        <script>
+                          function initMap() {
+                            var marketLocation = {lat: {{ existing_image.latitude }}, lng: {{ existing_image.longitude }} };
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                              zoom: 8,
+                              center: marketLocation
+                            });
+                            var marker = new google.maps.Marker({
+                              position: marketLocation,
+                              map: map
+                            });
+                          }
+                        </script>
+                        <script async defer
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
+                        </script>
+                    {% else %}
+                        No location!
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        <button class="btn btn-primary" type="submit" name="submit">Upload</button>
-    </form>
-
-    <hr/>
-
-    <!-- Delete image section -->
-    <h4><b>Delete Image</b> (withdraw from the competition)</h4>
-
-    <form role="form" id="delete_form" method="POST" action="{% url 'current' user %}">
-        {% csrf_token %}
-        <button type="submit" name="delete" value="true" class="btn btn-danger">Delete</button>
-    </form>
 
 
-		{% else %}
+        <hr/>
 
-		<form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}" enctype="multipart/form-data">
-			<h2>{{ status }}</h2>
-			<h3 class="form-signin-heading">Upload Image</h3>
-			<div class="form-group">
-				{% csrf_token %}
-				{% for field in form.hidden_fields %}
-					{{ hidden }}
-				{% endfor %}
+        <!-- Replace image section -->
 
-				{% for field in form.visible_fields %}
-						{{ field.label }}
-						{{ field }} <br/>
-						{{ field.errors }}
-				{% endfor %}
+        <form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}", enctype="multipart/form-data">
+            <h2>{{ status }}</h2>
+    <h4><b>Replace Image</b> (causes you to lose your current rating)</h4>
+            <div class="form-group">
+                {% csrf_token %}
+                {% for field in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
 
-				<div class="form-check">
-					<label class="form-check-label">
-					  <input type="checkbox" name="checkbox_scrap_gps" id="checkbox_scrap_gps" class="form-check-input">
-					  Try to obtain location from the image EXIF data
-					</label>
-				</div>
-			</div>
-			<button class="btn btn-primary" type="submit" name="delete_image">Upload</button>
+                {% for field in form.visible_fields %}
+                        {{ field.label }}
+                        {{ field }} <br/>
+                        {{ field.errors }}
+                {% endfor %}
+
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" name="checkbox_scrap_gps" id="checkbox_scrap_gps" class="form-check-input">
+                      Try to obtain location from the image EXIF data
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit" name="submit">Upload</button>
         </form>
-			<br/><br/>
-		{% endif %}
 
-<br/>
-<br/>
-			<a href="{% url 'main' %}">Return to the main page</a> 
+        <hr/>
+
+        <!-- Delete image section -->
+        <h4><b>Delete Image</b> (withdraw from the competition)</h4>
+
+        <form role="form" id="delete_form" method="POST" action="{% url 'current' user %}">
+            {% csrf_token %}
+            <button type="submit" name="delete" value="true" class="btn btn-danger">Delete</button>
+        </form>
+
+
+            {% else %}
+
+            <form role="form" id="image_upload_form" method="POST" action="{% url 'current' user %}" enctype="multipart/form-data">
+                <h2>{{ status }}</h2>
+                <h3 class="form-signin-heading">Upload Image</h3>
+                <div class="form-group">
+                    {% csrf_token %}
+                    {% for field in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% for field in form.visible_fields %}
+                            {{ field.label }}
+                            {{ field }} <br/>
+                            {{ field.errors }}
+                    {% endfor %}
+
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" name="checkbox_scrap_gps" id="checkbox_scrap_gps" class="form-check-input">
+                          Try to obtain location from the image EXIF data
+                        </label>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit" name="delete_image">Upload</button>
+            </form>
+                <br/><br/>
+            {% endif %}
+
+    <br/>
+    <br/>
+    {% else %}
+        <div class="row">
+            <div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
+            <div class="col-xs-8">
+                <span style="float: right; margin-right: 5%">
+                    <ul class="nav nav-tabs">
+                        <li><a href="{% url 'stats' userprofile %}">Stats</a></li>
+                        <li class="active"><a href="{% url 'current' userprofile %}">Current Word</a></li>
+                        <li><a href="{% url 'uploads' userprofile %}">Uploaded Images</a></li>
+                        <li><a href="{% url 'settings' userprofile %}">Profile Settings</a></li>
+                    </ul>
+                </span>
+            </div>
+			<td style="width: 25%">You do not have permission to view this page</td>
+        </div>
+        <br/>
+            <a href="{% url 'main' %}">Return to the main page</a> 
+    {% endif %}
 {% endblock %}

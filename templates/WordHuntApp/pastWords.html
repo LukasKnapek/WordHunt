@@ -23,8 +23,8 @@
 
 	<ul class="list-group">
 	{% if competitions %}
-		{% for competition in competitions %}
-			<a href="{% url 'word' %}"><li class="list-group-item">{{competition.word}}: {{competition.end_date}}<span class="badge">{{competition.pictures_number}}</span></li></a>
+		{% for competition, pictures_number in competitions %}
+			<a href="{% url 'word' %}"><li class="list-group-item">{{competition.word}}: {{competition.end_date}}<span class="badge">{{pictures_number}}</span></li></a>
 		{% endfor %}
 	{% endif %}
 	</ul>
