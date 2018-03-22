@@ -7,6 +7,11 @@
 {% endblock %}
 
 {% block head_block %}
+	<style>
+			a {color: black;}
+			a:hover, a:active {color: black;}
+			a:visited {color: #b4b4b4;}
+	</style>
 	<script>
 		$(document).ready(function(){ $('[data-toggle="tooltip"]').tooltip();});
 	</script> 
@@ -19,7 +24,7 @@
 	<ul class="list-group">
 	{% if competitions %}
 		{% for competition in competitions %}
-			<a href="{% url 'word' word.slug %}"><li class="list-group-item">{{competition.word}}: {{competition.end_date}}<span class="badge">{{competition.pictures_number}}</span></li></a>
+			<a href="{% url 'word' %}"><li class="list-group-item">{{competition.word}}: {{competition.end_date}}<span class="badge">{{competition.pictures_number}}</span></li></a>
 		{% endfor %}
 	{% endif %}
 	</ul>

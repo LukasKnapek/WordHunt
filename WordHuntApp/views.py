@@ -17,37 +17,35 @@ from WordHuntApp.models import Rating
 from WordHuntApp.forms import ImageUploadForm, UserProfileForm
 from WordHuntApp.utils import *
 
-def user_list_def():
-    user_list = UserProfile.objects.order_by('rank')[:5]
-    dict = {'users':user_list}
-    return dict
-
 def main(request):
-    context_dict = user_list_def()
     if is_competition_active():
-        context_dict["word"] = get_current_word().text
+        context_dict = {"word": get_current_word().text}
         images = Image.objects.filter(related_word=get_current_word().text)
         context_dict["images"] = images
+        time_left = Competition.objects.get(word = get_current_word()).end_date.replace(tzinfo=pytz.UTC) - datetime.datetime.now().replace(tzinfo=pytz.UTC)
+        context_dict["hours_left"] = time_left.seconds//3600
+        context_dict["minutes_left"] = (time_left.seconds//60)%60
     else:
-        context_dict["word"] = "No competition at the moment!"
+        context_dict = {"word": "No competition at the moment!"}
+        context_dict["images"] = None
+        context_dict["hours_left"] = None
+        context_dict["minutes_left"] = None
     response = render(request, 'WordHuntApp/main.html', context_dict)
     return response
     
 def about(request):
-    context_dict = user_list_def()
-    response = render(request, 'WordHuntApp/about.html',context_dict)
+    response = render(request, 'WordHuntApp/about.html')
     return response
     
 def past(request):
-    context_dict = user_list_def()
     competition = Competition.objects.all()
-    context_dict['competitions'] = competition
+    context_dict = {'competitions': competition}
     response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
     
 def leaderboard(request):
-    context_dict = user_list_def()
-    response = render(request, 'WordHuntApp/leaderboards.html',context_dict)
+    users = UserProfile.objects.all()
+    response = render(request, 'WordHuntApp/leaderboards.html',{'users': users, 'images': images})
     return response
     
 def search(request):
@@ -57,9 +55,8 @@ def search(request):
     return response
     
 def register(request):
-    context_dict = user_list_def()
     registered = False
-    response = render(request, 'WordHuntApp/register.html',context_dict)
+    response = render(request, 'WordHuntApp/register.html')
     return response
     
 def user_login(request):
@@ -112,8 +109,7 @@ def stats(request, username):
         total_rating = total_rating + image.avg_rating
         if image.avg_rating > best_rating:
             best_rating = image.avg_rating
-            best_picture = image.uploaded_image
-        
+            best_picture = image.uploaded_image        
     try:
         average = total_rating/images_number
     except ZeroDivisionError:
@@ -135,17 +131,65 @@ def stats(request, username):
          'images_number': images_number, 'rated': rated, 'commented': commented,
          'average': average, 'best_rating': best_rating, 'best_picture': best_picture})
     
-def current(request):
-    response = render(request, 'WordHuntApp/userCurrent.html')
-    return response
-
-def settings(request):
-    response = render(request, 'WordHuntApp/userSettings.html')
-    return response
+def current(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('main')
     
-def uploads(request):
-    response = render(request, 'WordHuntApp/userAllPictures.html')
-    return response
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+    form = UserProfileForm()
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('current', user.username)
+        else:
+            print(form.errors)
+
+    return render(request, 'WordHuntApp/userCurrent.html',
+        {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+
+def settings(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('main')
+    
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+    form = UserProfileForm()
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('settings', user.username)
+        else:
+            print(form.errors)
+
+    return render(request, 'WordHuntApp/userSettings.html',
+        {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+    
+def uploads(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('main')
+    
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+    form = UserProfileForm()
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('uploads', user.username)
+        else:
+            print(form.errors)
+
+    return render(request, 'WordHuntApp/userAllPictures.html',
+        {'userprofile': userprofile, 'selecteduser': user, 'form': form})
     
 def user_logout(request):
     logout(request)

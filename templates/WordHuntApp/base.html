@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 {% load staticfiles %}
+{% load WordHuntApp_template_tags %}
 
 <html lang="en">
 
@@ -116,15 +117,7 @@
 								<td style="width: 15%">Points</td>
 							</tr>
 
-							{% if users %}
-								{% for user in users %}
-									<tr>
-										<td>{{user.rank}}</td>
-										<td><a href="{% url 'main' %}" style="color: black">{{user}}</a></td>
-										<td>{{user.total_points}}</td>
-									</tr>
-								{% endfor %}
-							{% endif %}
+							{% get_user_list %}
 
 						</table>
 					</div>

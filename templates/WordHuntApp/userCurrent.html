@@ -4,6 +4,7 @@
 {% block title_block %}
 	- {{user}} Current
 {% endblock %}
+{% block body_block %}
 	<div class="row">
 		<div class="col-xs-2"><font size=6>Profile</font></div>
 		<div class="col-xs-10">
@@ -21,8 +22,36 @@
 			<font size=4><center>The current word is: {{word}}</center></font>
 			<br>
 
-		<!--NO PICTURE UPLOADED YET -->
-			<font size=3><b>Upload a picture</b></font><br>
+		{% if userprofile.currently_participates %}
+		
+					<br>
+			<h3><b> PICTURE UPLOADED VIEW</b></h3>
+			<span style="margin-left: 2%">Current picture rating: {{image.avg_rating}}</span><br>
+			<span style="margin-left: 2%">Current competition rank: #NUMBER</span><br>
+			<br>
+			<div class="row">
+				<div class="col-xs-6">
+					<font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
+					PICTURE
+				</div>
+				<div class="col-xs-6">
+					<font size=4><span style="margin-left: 2%">Location preview</span></font><br>
+					LOCATION
+				</div>
+			</div>
+			Replace picture (resets rating) 
+			<form method="post">
+				<center>
+					<input type="file" name="pic" accept="image/*">
+					<input type="submit">
+				</center>
+			</form>
+			Delete picture (withdraw from competition) <center><button type="button" class="btn btn-danger">Delete</button></center> 
+	
+
+		{% else %}
+
+		<font size=3><b>Upload a picture</b></font><br>
 			Path
 			<center>
 				<form action="/action_page.php">
@@ -59,33 +88,6 @@
 					</div>
 				</div>
 			</div>
-
-		<!-- A PICTURE HAS BEEN UPLOADED -->
-
-			<br>
-			<h3><b> PICTURE UPLOADED VIEW</b></h3>
-			<span style="margin-left: 2%">Current picture rating: {{image.avg_rating}}</span><br>
-			<span style="margin-left: 2%">Current competition rank: #NUMBER</span><br>
-			<br>
-			<div class="row">
-				<div class="col-xs-6">
-					<font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
-					PICTURE
-				</div>
-				<div class="col-xs-6">
-					<font size=4><span style="margin-left: 2%">Location preview</span></font><br>
-					LOCATION
-				</div>
-			</div>
-			Replace picture (resets rating) 
-			<form method="post">
-				<center>
-					<input type="file" name="pic" accept="image/*">
-					<input type="submit">
-				</center>
-			</form>
-			Delete picture (withdraw from competition) <center><button type="button" class="btn btn-danger">Delete</button></center> 
-
-		</div>
-	</body>
-</html>
+		{% endif %}
+			<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}

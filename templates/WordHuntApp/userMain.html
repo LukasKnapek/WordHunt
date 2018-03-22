@@ -19,9 +19,9 @@
 			<span style="float: right; margin-right: 5%">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="{% url 'stats' user.username %}">Stats</a></li>
-					<li><a href="{% url 'current' %}">Current Word</a></li>
-					<li><a href="{% url 'uploads' %}">Uploaded Images</a></li>
-					<li><a href="{% url 'settings' %}">Profile Settings</a></li>
+					<li><a href="{% url 'current' userprofile%}">Current Word</a></li>
+					<li><a href="{% url 'uploads' userprofile%}">Uploaded Images</a></li>
+					<li><a href="{% url 'settings' userprofile%}">Profile Settings</a></li>
 				</ul>
 			</span>
 		</div>
@@ -53,7 +53,12 @@
 				</tr>
 				<tr>
 					<td style="padding: 5px">Competitions Won: </td>
-					<td>{{userprofile.competitions_won}}</td>
+					<td>{% if userprofile.competitions_won == None %}
+							<p>0</p>
+						{% else %}
+							{{userprofile.competitions_won}}
+						{% endif %}
+					</td>
 				</tr>
 				<tr>
 					<td style="padding: 5px">Pictures Rated: </td>
