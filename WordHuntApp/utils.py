@@ -69,3 +69,15 @@ def update_competition_ranks():
 
     except Image.DoesNotExist:
         print("No images yet for competition '%s'" % word.text)
+
+def search_for_users(query):
+    results = []
+    for user in UserProfile.objects.all():
+        if query in str(user): results.append(user)
+    return results
+
+def get_number_of_user_images(user_profiles):
+    numbers = []
+    for user_profile in user_profiles:
+        numbers.append(len(Image.objects.filter(user=user_profile.user)))
+    return numbers

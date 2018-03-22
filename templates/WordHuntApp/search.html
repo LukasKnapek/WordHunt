@@ -7,27 +7,39 @@
 {% endblock %}
 
 {% block head_block %}
-	<!-- ALLOW THE SEARCH TOOL TO WORK-->
-		<script>
-			$(document).ready(function(){
-				$("#myInput").on("keyup", function() {
-					var value = $(this).val().toLowerCase();
-					$("#myTable tr").filter(function() {
-						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-					});
-				});
-				$(".clickable-row").click(function() {
-					window.location = $(this).data("href");
+<!-- ALLOW THE SEARCH TOOL TO WORK-->
+	<script>
+		$(document).ready(function(){
+			$("#myInput").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 				});
 			});
-		</script> 
+			$(".clickable-row").click(function() {
+				window.location = $(this).data("href");
+			});
+		});
+	</script>
+	<style>
+		a {color: blue;}
+		a:visited {color: purple;}
+	</style>
 {% endblock %}
 
 {% block body_block %}
 	<font size=6>Search</font>
 	<br />
 
-	<input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+	<form class="form-inline" action="{% url 'search' %}" method="POST">
+		{% csrf_token %}
+		{% if query %}
+			<input name="query" class="form-control" id="myInput" type="text" class="" value="{{ query }}"/>
+		{% else %}
+			<input name="query" class="form-control" id="myInput" type="text" class="" placeholder="Search.."/>
+		{% endif %}
+		<button type="submit" class="btn btn-primary">Search for Users</button>
+	</form>
 	<br />
 
 	<table class="table table-hover">
@@ -40,13 +52,13 @@
 			</tr>
 		</thead>
 		<tbody id="myTable">
-			{% if users %}
-				{% for user in users %}
+			{% if results %}
+				{% for user, n_images in results %}
 					<tr class="clickable-row" data-href="{% url 'stats' user %}">
-						<td>{{user.rank}}</td>
-						<td>{{user}}</td>
-						<td></td>
-						<td>{{user.total_points}}</td>
+						<td>{{ user.rank }}</td>
+						<td><a href="{% url 'stats' user %}">{{ user }}</a></td>
+						<td>{{ n_images }}</td>
+						<td>{{ user.total_points }}</td>
 					</tr>
 				{% endfor %}
 			{% endif %}

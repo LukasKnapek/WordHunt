@@ -30,40 +30,51 @@ def populate():
          "email": "hunter123@email.com",
          "total_points": 564,
          "rank": 1,
-         "currently_participates": True},
+         "currently_participates": True,
+         "competition_rank": 0,
+         "competitions_won": 0},
 
         {"username": "1337Commander",
          "password": "1337Lyfe",
          "email": "commando@email.com",
          "total_points": 470,
          "rank": 2,
-         "currently_participates": False},
+         "currently_participates": False,
+         "competition_rank": None,
+         "competitions_won": 0},
 
         {"username": "Ch0mp",
          "password": "chompchomp",
          "email": "blabla@10minutemail.com",
          "total_points": 254,
          "rank": 3,
-         "currently_participates": True},
+         "currently_participates": True,
+         "competition_rank": 0,
+         "competitions_won": 0},
 
         {"username": "BTW",
          "password": "9999999",
          "email": "ferr@oomla.com",
          "total_points": 90,
          "rank": 4,
-         "currently_participates": True},
+         "currently_participates": True,
+         "competition_rank": 0,
+         "competitions_won": 0},
 
         {"username": "KillerLady",
          "password": "toor",
          "email": "angel@email.com",
          "total_points": 0,
          "rank": 5,
-         "currently_participates": True}
+         "currently_participates": True,
+         "competition_rank": 0,
+         "competitions_won": 0},
     ]
 
     for u in users:
         add_user(u["username"], u["password"], u["email"],
-                 u["total_points"], u["rank"], u["currently_participates"])
+                 u["total_points"], u["rank"], u["currently_participates"],
+                 u["competition_rank"], u["competitions_won"])
         print("Added %s" % u["username"])
 
     images = [
@@ -132,7 +143,7 @@ def populate():
         print("Added a new comment for image '%s' from user '%s'" % (r["image"], r["user"]))
 
 
-def add_user(username, password, email, total_points, rank, currently_participates):
+def add_user(username, password, email, total_points, rank, currently_participates, comp_rank, comps_won):
     u = User.objects.get_or_create(username=username,
                                    password=password,
                                    email=email)[0]
@@ -140,7 +151,9 @@ def add_user(username, password, email, total_points, rank, currently_participat
     profile = UserProfile.objects.get_or_create(user=u,
                                    total_points=total_points,
                                    rank=rank,
-                                   currently_participates=currently_participates)[0]
+                                   currently_participates=currently_participates,
+                                   competition_rank=comp_rank,
+                                   competitions_won=comps_won)[0]
     print(u, profile)
     return u
 

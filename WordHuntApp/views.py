@@ -16,6 +16,7 @@ from WordHuntApp.models import Comment
 from WordHuntApp.models import Rating
 from WordHuntApp.forms import ImageUploadForm, UserProfileForm
 from WordHuntApp.utils import *
+import json
 
 def main(request):
     if is_competition_active():
@@ -49,8 +50,22 @@ def leaderboard(request):
     return response
     
 def search(request):
+    context_dict = {}
+
     if request.method == 'POST':
-        input = request.POST.get()
+        query = request.POST.get("query")
+        users = search_for_users(query)
+        n_images = get_number_of_user_images(users)
+        results = list(zip(users, n_images))
+
+        for result in results:
+            print(result)
+
+        context_dict["query"] = query
+        context_dict["results"] = results
+
+        return render(request, 'WordHuntApp/search.html', context_dict)
+
     response = render(request, 'WordHuntApp/search.html')
     return response
     

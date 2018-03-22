@@ -7,9 +7,11 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    total_points = models.IntegerField()
-    rank = models.IntegerField()
-    currently_participates = models.BooleanField()
+    total_points = models.IntegerField(default=0)
+    rank = models.IntegerField(default=None, null=True)
+    competition_rank = models.IntegerField(default=None, null=True)
+    competitions_won = models.IntegerField(default=0, null=True)
+    currently_participates = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
