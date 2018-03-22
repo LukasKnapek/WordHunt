@@ -53,6 +53,18 @@ def past(request):
     print(var)
     response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
+
+def all(request,word):
+    context_dict = {}
+    context_dict["word"] = word
+    w = Competition.objects.get(word=word)
+    images = Image.objects.filter(related_word=word)
+    image_rows = []
+    for i in range(0, len(images), 3):
+        image_rows.append(images[i:i+3])
+    context_dict["image_rows"] = image_rows
+    response = render(request, 'WordHuntApp/something.html',context_dict)
+    return response
     
 def leaderboard(request):
     users = UserProfile.objects.all()
@@ -223,7 +235,7 @@ def current(request, username):
         auth = False
     else:
         auth = True
-		
+        
     context_dict["auth"] = auth
     existing_image = None
     try:
