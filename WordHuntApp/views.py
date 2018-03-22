@@ -40,7 +40,11 @@ def about(request):
     
 def past(request):
     competition = Competition.objects.all()
-    context_dict = {'competitions': competition}
+    pictures_number = []
+    for competitions in competition:
+        pictures_number.append(len(Image.objects.filter(related_word=competitions.word)))
+    var = list(zip(competition,pictures_number))
+    context_dict = {'competitions': var}
     response = render(request, 'WordHuntApp/pastWords.html',context_dict)
     return response
     
