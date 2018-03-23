@@ -15,6 +15,7 @@ django.setup()
 
 from WordHuntApp.models import *
 from django.contrib.auth.models import User
+from WordHuntApp.utils import *
 
 def populate():
     # Create the word and the competition related to that word
@@ -26,7 +27,7 @@ def populate():
 
     users = [
         {"username": "XxX_HunTer123",
-         "password": "iwannabetheverybest",
+         "password": "wordhunt",
          "email": "hunter123@email.com",
          "total_points": 564,
          "rank": 1,
@@ -35,7 +36,7 @@ def populate():
          "competitions_won": 0},
 
         {"username": "1337Commander",
-         "password": "1337Lyfe",
+         "password": "wordhunt",
          "email": "commando@email.com",
          "total_points": 470,
          "rank": 2,
@@ -44,7 +45,7 @@ def populate():
          "competitions_won": 0},
 
         {"username": "Ch0mp",
-         "password": "chompchomp",
+         "password": "wordhunt",
          "email": "blabla@10minutemail.com",
          "total_points": 254,
          "rank": 3,
@@ -53,7 +54,7 @@ def populate():
          "competitions_won": 0},
 
         {"username": "BTW",
-         "password": "9999999",
+         "password": "wordhunt",
          "email": "ferr@oomla.com",
          "total_points": 90,
          "rank": 4,
@@ -62,7 +63,7 @@ def populate():
          "competitions_won": 0},
 
         {"username": "KillerLady",
-         "password": "toor",
+         "password": "wordhunt",
          "email": "angel@email.com",
          "total_points": 0,
          "rank": 5,
@@ -80,22 +81,22 @@ def populate():
     images = [
         {"word" : Word.objects.get(text="Flag"),
          "user": User.objects.get(username="XxX_HunTer123"),
-         "avg_rating": 4,
+         "avg_rating": 0,
          "uploaded_image": "flag_entry_1.jpeg"},
 
         {"word" : Word.objects.get(text="Flag"),
          "user": User.objects.get(username="BTW"),
-         "avg_rating": 3.2,
+         "avg_rating": 0,
          "uploaded_image": "flag_entry_2.jpeg"},
 
         {"word" : Word.objects.get(text="Flag"),
          "user": User.objects.get(username="KillerLady"),
-         "avg_rating": 4.5,
+         "avg_rating": 0,
          "uploaded_image": "flag_entry_3.jpeg"},
 
         {"word" : Word.objects.get(text="Flag"),
          "user": User.objects.get(username="Ch0mp"),
-         "avg_rating": 2.4,
+         "avg_rating": 0,
          "uploaded_image": "flag_entry_4.jpeg"}
     ]
 
@@ -170,6 +171,7 @@ def add_rating(user, image, rating):
                                      image=image,
                                      rating=rating)[0]
     r.save()
+    calculate_new_average_rating(image)
     return r
 
 def add_comment(user, image, creation_date, text):
@@ -183,3 +185,4 @@ def add_comment(user, image, creation_date, text):
 if __name__ == '__main__':
     print("Starting population script")
     populate()
+    update_competition_ranks()
