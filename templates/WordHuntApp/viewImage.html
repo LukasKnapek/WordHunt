@@ -10,27 +10,19 @@
     <script src="{% static 'js/jquery.rateit.min.js' %}"></script>
     <script src="{% static 'js/rate.js' %}"></script>
     <link href="{% static 'css/rateit.css' %}" rel="stylesheet">
-   <style>
-	  #map {
-		height: 250px;
-		width: 250px;
-	   }
-	   .form-inline .form-group input {
-			width:140px;
-		}
-	</style>
+    <link href="{% static 'css/viewImage_style.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body_block %}
 	<div class="row">
 		<div class="col-xs-10">
-			<font size=6>{{word}}</font>
+			<h1 class="lineheight">{{word}}</h1>
 			<p> by <a href="{% url 'stats' profile_user %}">{{ profile_user }}</a>
 			</br>
 			<a href="{% url 'all' word %}">Go back to all {{ word }} pictures</a>
 		</div>
 		<div class="col-xs-2">
-			<span style="margin-right: 10%;"><b>Rate:</b></span></br>
+			<span class="rate"><b>Rate:</b></span></br>
 			{% if user.is_authenticated %}
 				<div id="{{ image.id }}_rating" class="rateit"
 				 data-rateit-mode="font"
@@ -50,26 +42,18 @@
 	</div>
 	<div class="row">
 		 <div class="col-xs-12">
-			 	<img src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{ word }}" style=" width: 100%; padding: 5%"/>
-		 </div>
+			<div class="thumbnail">
+			 	<div class="ratio" style="background-image:url('{{ MEDIA_URL}}{{ image.uploaded_image }}')" alt="Image for competition {{ word }}">
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-4">
 		<b>Image location</b><br/>
 		{% if latitude and longitude %}
 			<div id="map"></div>
-			<script>
-			  function initMap() {
-				var marketLocation = {lat: {{ latitude }}, lng: {{ longitude }} };
-				var map = new google.maps.Map(document.getElementById('map'), {
-				  zoom: 4,
-				  center: marketLocation
-				});
-				var marker = new google.maps.Marker({
-				  position: marketLocation,
-				  map: map
-				});
-			  }
+			<script href="{% static 'js/viewImage_script.js' %}">			  
 			</script>
 			<script async defer
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">

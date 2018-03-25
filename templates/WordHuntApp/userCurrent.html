@@ -19,7 +19,7 @@
 
 {% block body_block %}
         <div class="row">
-            <div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
+            <div class="col-xs-4"><h1 class="lineheight">{{userprofile}}'s Profile</h1></div>
             <div class="col-xs-8">
                 <span style="float: right; margin-right: 5%">
                     <ul class="nav nav-tabs">
@@ -50,25 +50,14 @@
 
             <div class="row">
                 <div class="col-xs-6">
-                    <font size=4><span style="margin-left: 2%">Picture preview</span></font><br>
+                    <h3><span style="margin-left: 2%">Picture preview</span></h3><br>
                     <img id="existing_image" src="{{ MEDIA_URL }}{{ existing_image.uploaded_image }}" class="img-responsive">
                 </div>
                 <div class="col-xs-6">
-                    <font size=4><span style="margin-left: 2%">Location preview</span></font><br>
+                    <h3><span style="margin-left: 2%">Location preview</span></h3><br>
                     {% if existing_image.latitude %}
                         <div id="map"></div>
-                        <script>
-                          function initMap() {
-                            var marketLocation = {lat: {{ existing_image.latitude }}, lng: {{ existing_image.longitude }} };
-                            var map = new google.maps.Map(document.getElementById('map'), {
-                              zoom: 8,
-                              center: marketLocation
-                            });
-                            var marker = new google.maps.Marker({
-                              position: marketLocation,
-                              map: map
-                            });
-                          }
+                        <script href="{% static 'js/userCurrent_script.js' %}">
                         </script>
                         <script async defer
                             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">

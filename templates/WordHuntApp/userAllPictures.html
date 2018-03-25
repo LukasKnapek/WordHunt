@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block head_block %}
+	<link href="{% static 'css/userAllPictures_style.css' %}" rel="stylesheet" type="text/css">
+
 {% endblock %}
 
 {% block body_block %}
 	<div class="row">
-		<div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
+		<div class="col-xs-4"><h1 class="lineheight">{{userprofile}}'s Profile</h1></div>
 		<div class="col-xs-8">
-			<span style="float: right; margin-right: 5%">
+			<span class="right_layout">
 				<ul class="nav nav-tabs">
 					<li><a href="{% url 'stats' userprofile %}">Stats</a></li>
 					<li><a href="{% url 'current' userprofile %}">Current Word</a></li>
@@ -28,10 +30,15 @@
 	<div class="row">
 		{% for image in images %}
 			<div class="col-xs-4">
-				<a href="{% url 'word' image.user image.related_word %}"><img class="float-left" src="{{ MEDIA_URL}}{{ image.uploaded_image }}" alt="Image for competition {{word}}" style="max_height: 300px; max_width: 300px; width: 100%; height: 100%; padding: 5%"/></a>
+				<div class="thumbnail">
+					<a href="{% url 'word' image.user image.related_word %}">
+						<div class="ratio" style="background-image:url('{{ MEDIA_URL}}{{ image.uploaded_image }}')">
+						</div>
+					</a>
 				<center>
 				<a href="{% url 'stats' image.related_word %}">{{image.related_word}}</a>
 				</center>
+				</div>
 			</div>
 		{% endfor %}
 		{% if images|length == 0 %}
@@ -42,7 +49,7 @@
 	</div>
 
 <!-- USING AJAX(?). First check if there is more than 12 pictures. If yes create a pagination button and when clicked reload pictures starting from the next group-->
-			
+<!-- FINISH THIS			
 	<center>
 		<ul class="pagination">
 			<li><a href="PART 1">1</a></li>
@@ -52,6 +59,6 @@
 			<li><a href="PART 5">5</a></li>
 		</ul>			
 	</center>
-
+-->
 	<a href="{% url 'main' %}">Return to the main page</a> 
 {% endblock %}

@@ -6,28 +6,16 @@
 {% endblock %}
 
 {% block head_block %}
-
-	<style>
-		.ratio {
-			position:relative;
-			width: 100%;
-			height: 0;
-			padding-bottom: 60% ; /* % of width, defines aspect ratio*/
-
-			background-repeat: no-repeat;
-			background-position: center center;
-			background-size: cover;
-		}
-	</style>
-
+	<link href="{% static 'css/all_style.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
+
 {% block body_block %}
 	<div class="row">
 		<div class="col-xs-8">
-			<font size=6>Past Word: {{ word }}</font>
+			<h1 class="lineheight">Word: {{ word }}</h1>
 		</div>
 		<div class="col-xs-4">
-			<div style="font-size: 15px; float: right;">Ends on: {{competition.end_date}}</div>
+			<div class="enddate">Ended on: {{competition.end_date}}</div>
 		</div>
 	</div>
 	<hr>	
@@ -38,8 +26,8 @@
 			<div class="col-md-4">
 				<div class="thumbnail">
 					<a href="{% url 'word' image.user image.related_word %}">
+					<!-- to make the pictures show up in the correct sizes and shapes they are set as backgrounds for rectangles" -->
 						<div class="ratio" style="background-image:url('{{ MEDIA_URL}}{{ image.uploaded_image }}')">
-
 						</div>
 					</a>
 					<center>

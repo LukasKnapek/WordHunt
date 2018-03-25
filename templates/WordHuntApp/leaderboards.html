@@ -7,18 +7,19 @@
 {% endblock %}
 
 {% block head_block %}
+	<link href="{% static 'css/leaderboards_style.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body_block %}
-	<font size=6>Leaderboards</font>
+	<h1 class="lineheight">Leaderboards</h1>
 	<br />
 
 	<table class="table table-bordered">
-		<tr style="background-color: #c9ff99; text-color: white;">
-			<td style="width: 10%"><center>Rank</center></td>
+		<tr class="leaderboards-top">
+			<td class="leaderboards-rank"><center>Rank</center></td>
 			<td><center>Name</center></td>
-			<td style="width: 25%"><center>Number of Pictures Uploaded</center></td>
-			<td style="width: 15%"><center>Points</center></td>
+			<td class="leaderboards-pictures"><center>Number of Pictures Uploaded</center></td>
+			<td class="leaderboards-points"><center>Points</center></td>
 		</tr>
 		{% if results %}
 			{% for user, number in results %}

@@ -8,23 +8,12 @@
 
 {% block head_block %}
 <!-- ALLOW THE SEARCH TOOL TO WORK-->
-	<script>
-		$(document).ready(function(){
-			$("#myInput").on("keyup", function() {
-				var value = $(this).val().toLowerCase();
-				$("#myTable tr").filter(function() {
-					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-				});
-			});
-			$(".clickable-row").click(function() {
-				window.location = $(this).data("href");
-			});
-		});
-	</script>
+	<script href="{% static 'js/search_script.js' %}"></script>
+	<link href="{% static 'css/search_style.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body_block %}
-	<font size=6>Search</font>
+	<h1 class="lineheight">Search</h1>
 	<br />
 
 	<form class="form-inline" action="{% url 'search' %}" method="POST">
@@ -41,10 +30,10 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th style="width: 10%">Rank</th>
+				<th class="search_rank">Rank</th>
 				<th>Username</th>
-				<th style="width: 20%">Number of Pictures</th>
-				<th style="width: 10%">Points</th>
+				<th class="search_pictures">Number of Pictures</th>
+				<th class="search_points">Points</th>
 			</tr>
 		</thead>
 		<tbody id="myTable">

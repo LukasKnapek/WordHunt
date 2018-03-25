@@ -6,13 +6,14 @@
 {% endblock %}
 
 {% block head_block %}
+	<link href="{% static 'css/userMain_style.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body_block %}
 	<div class="row">
-		<div class="col-xs-4"><font size=6>{{userprofile}}'s Profile</font></div>
+		<div class="col-xs-4"><h1 class="lineheight">{{userprofile}}'s Profile</h1></div>
 		<div class="col-xs-8">
-			<span style="float: right; margin-right: 5%">
+			<span class="right_layout">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="{% url 'stats' userprofile %}">Stats</a></li>
 					<li><a href="{% url 'current' userprofile %}">Current Word</a></li>
@@ -27,13 +28,13 @@
 	<br />
 	<div class="row">
 		<div class="col-xs-6">
-			<table style="border: none; width: 100%; font-size: 15px;">
+			<table class="table_style">
 				<tr>
-					<td style="padding: 5px">Total Rank: </td>
+					<td>Total Rank: </td>
 					<td>#{{userprofile.rank}}</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Current Competition Rank: </td>
+					<td>Current Competition Rank: </td>
 					<td>{% if userprofile.currently_participates %}
 							#{{userprofile.competition_rank}}
 						{% else %}
@@ -42,15 +43,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Total Pictures Uploaded: </td>
+					<td>Total Pictures Uploaded: </td>
 					<td>{{images_number}}</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Total Points: </td>
+					<td>Total Points: </td>
 					<td>{{userprofile.total_points}}</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Competitions Won: </td>
+					<td>Competitions Won: </td>
 					<td>{% if userprofile.competitions_won == None %}
 							<p>0</p>
 						{% else %}
@@ -59,28 +60,32 @@
 					</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Pictures Rated: </td>
+					<td>Pictures Rated: </td>
 					<td>{{rated}}</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Pictures Commented: </td>
+					<td>Pictures Commented: </td>
 					<td>{{commented}}</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Average Picture Rating: </td>
+					<td>Average Picture Rating: </td>
 					<td>{{average}}</td>
 				</tr>
 				<tr>
-					<td style="padding: 5px">Best Picture Rating: </td>
+					<td>Best Picture Rating: </td>
 					<td>{{best_rating}}</td>
 				</tr>
 			</table>
 		</div>
 		<div class="col-xs-6">
 			{% if images_number != 0 %}
-				<font size=4>Best rated picture: </font><br /><img src="{{ MEDIA_URL }}{{best_picture}}" alt="{{userprofile}}'s best picture" style="max_height: 200px; max_width: 200px; width: 100%; height: 100%;" />
+				<h3>Best rated picture: </h3>
+				<div class="thumbnail">
+					<div class="ratio" style="background-image:url('{{ MEDIA_URL }}{{best_picture}}')" alt="{{userprofile}}'s best picture">
+					</div>
+				</div>
 			{% else %}
-				<center><font size=4>This user has not posted any pictures</font></center>
+				<center><h3>This user has not posted any pictures</h3></center>
 			{% endif %}
 		</div>
 	</div>
