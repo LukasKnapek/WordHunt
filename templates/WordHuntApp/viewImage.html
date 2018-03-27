@@ -22,20 +22,26 @@
 			<a href="{% url 'all' word %}">Go back to all {{ word }} pictures</a>
 		</div>
 		<div class="col-xs-2">
-		<!-- rateing system -->
+		<!-- rating system -->
 			<span class="rate"><b>Rate:</b></span></br>
-			{% if user.is_authenticated %}
-				<div id="{{ image.id }}_rating" class="rateit"
-				 data-rateit-mode="font"
-				 data-rateit-resetable="false"
-				 date-rateit-step="1"
-				 data-rateit-value="{{ user_rating }}"
-				 data-rateit-readonly="{{ rating_readonly }}"
-				 style="font-size:30px">
-				</div>
-				Average rating: <span id="average_rating"><b>{{ avg_rating }}</b></span>
+			<!-- deactivated if the competition is over -->
+			{% if active %}
+				{% if user.is_authenticated %}
+					<div id="{{ image.id }}_rating" class="rateit"
+					data-rateit-mode="font"
+					data-rateit-resetable="false"
+					date-rateit-step="1"
+					data-rateit-value="{{ user_rating }}"
+					data-rateit-readonly="{{ rating_readonly }}"
+					style="font-size:30px">
+					</div>
+					Average rating: <span id="average_rating"><b>{{ avg_rating }}</b></span>
+				{% else %}
+					Log in to rate images!
+				{% endif %}
 			{% else %}
-				Log in to rate images!
+				Average rating: <span id="average_rating"><b>{{ avg_rating }}</b></span>
+				The competition for this word is over!
 			{% endif %}
 		</div>
 

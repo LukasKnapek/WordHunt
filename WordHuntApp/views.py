@@ -183,6 +183,11 @@ def word(request, username, word):
     user = request.user
     image = Image.objects.get(user=profile_user, related_word=word)
     comments = Comment.objects.filter(image=image)
+    active_competition = get_current_word()
+    if active_competition == image.related_word:
+	    context_dict["active"] = True
+    else:
+        context_dict["active"]=False
 
     context_dict["profile_user"] = profile_user
     context_dict["image"] = image
