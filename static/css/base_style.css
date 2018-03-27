@@ -1,6 +1,5 @@
-a {color: #ffffff;}
-a:hover, a:active {color: #f0f0f0;}
-a:visited {color: #b4b4b4;}
+a, a:hover, a:active {color: #50ba51;}
+a:visited {color: #025904;}
 .rank {width: 10%}
 .points {width: 15%}
 
