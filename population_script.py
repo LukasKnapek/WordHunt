@@ -121,17 +121,17 @@ def populate():
     comments = [
         {"user": User.objects.get(username="XxX_HunTer123"),
          "image": Image.objects.get(user=User.objects.get(username="BTW")),
-         "creation_date": datetime.datetime(2018,2,12,16,30,00),
+         "creation_date": datetime.datetime(2018,2,12,16,30,00,00, pytz.utc),
          "text": "Do you really have to apply filters to EVERY image?"},
 
         {"user": User.objects.get(username="BTW"),
          "image": Image.objects.get(user=User.objects.get(username="Ch0mp")),
-         "creation_date": datetime.datetime(2018,2,12,16,30,00),
+         "creation_date": datetime.datetime(2018,2,12,16,30,00,00, pytz.utc),
          "text": "Very nice!"},
 
         {"user": User.objects.get(username="XxX_HunTer123"),
          "image": Image.objects.get(user=User.objects.get(username="KillerLady")),
-         "creation_date": datetime.datetime(2018,2,12,16,30,00),
+         "creation_date": datetime.datetime(2018,2,12,16,30,00,00, pytz.utc),
          "text": "This feels like such a cliche, you could have put more creativity into it."},
     ]
 
