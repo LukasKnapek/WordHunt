@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block head_block %}
-	<link href="{% static 'css/all_style.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/main_style.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body_block %}
@@ -15,7 +15,7 @@
 			<h1 class="lineheight">Word: {{ word }}</h1>
 		</div>
 		<div class="col-xs-4">
-			<div class="enddate">Ended on: {{competition.end_date}}</div>
+			<div id="time_left">Ended on: {{competition.end_date}}</div>
 		</div>
 	</div>
 	<hr>
