@@ -79,6 +79,12 @@ def search_for_users(query):
     for user in UserProfile.objects.all():
         if query in str(user).lower(): results.append(user)
     return results
+	
+def search_for_words(query):
+    results = []
+    for word in Word.objects.all():
+        if query in str(word).lower(): results.append(word)
+    return results
 
 def get_number_of_user_images(user_profiles):
     numbers = []

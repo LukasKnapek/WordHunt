@@ -1,0 +1,53 @@
+{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}
+	- Search Words
+{% endblock %}
+
+{% block head_block %}
+<!-- ALLOW THE SEARCH TOOL TO WORK-->
+	<script href="{% static 'js/search_script.js' %}"></script>
+	<link href="{% static 'css/words_search_style.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body_block %}
+	<h1 class="lineheight">Search Words</h1>
+	<br />
+	<!-- search box -->
+	<form class="form-inline" action="{% url 'words_search' %}" method="POST">
+		{% csrf_token %}
+		{% if query %}
+			<input name="query" class="form-control" id="myInput" type="text" class="" value="{{ query }}"/>
+		{% else %}
+			<input name="query" class="form-control" id="myInput" type="text" class="" placeholder="Search.."/>
+		{% endif %}
+		<button type="submit" class="btn btn-primary">Search for Words</button>
+	</form>
+	<br />
+	<!-- results table -->
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Word</th>
+				<th class="word_search_end">End Date</th>
+				<th class="word_search_name">Number of Pictures</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% if results %}
+				{% for word, enddate, n_images in results %}
+					<tr>
+						<td><a href="{% url 'all' word %}">{{ word }}</a></td>
+						<td>{{ enddate }}</td>
+						<td>{{ n_images }}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+
+	<br />
+	<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}

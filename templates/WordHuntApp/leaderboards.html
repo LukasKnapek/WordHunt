@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body_block %}
-	<h1 class="lineheight">Leaderboards</h1>
+	<h1 class="lineheight">All Time Leaderboards</h1>
 	<br />
 
 	<table class="table table-bordered">
@@ -33,17 +33,5 @@
 		{% endif %}
 	</table>
 
-<!-- USING AJAX(?). First check if there is more than 20 users. If yes create a pagination button and when clicked reload user data starting from the next group-->
-<!-- TODO: finish this
-	<center>
-		<ul class="pagination">
-			<li><a href="PART 1">1</a></li>
-			<li><a href="PART 2">2</a></li>
-			<li><a href="PART 3">3</a></li>
-			<li><a href="PART 4">4</a></li>
-			<li><a href="PART 5">5</a></li>
-		</ul>
-	</center>
--->
 	<a href="{% url 'main' %}">Return to the main page</a> 
 {% endblock %}

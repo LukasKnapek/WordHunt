@@ -11,6 +11,7 @@
 
 {% block body_block %}
 	<div class="row">
+		<!-- users profile sub nav bar -->
 		<div class="col-xs-4"><h1 class="lineheight">{{userprofile}}'s Profile</h1></div>
 		<div class="col-xs-8">
 			<span class="right_layout">
@@ -28,6 +29,7 @@
 	<br />
 	<div class="row">
 		<div class="col-xs-6">
+		<!--stats -->
 			<table class="table_style">
 				<tr>
 					<td>Total Rank: </td>
@@ -78,6 +80,7 @@
 			</table>
 		</div>
 		<div class="col-xs-6">
+		<!-- show the best picture if the user has uploaded any -->
 			{% if images_number != 0 %}
 				<h3>Best rated picture: </h3>
 				<div class="thumbnail">

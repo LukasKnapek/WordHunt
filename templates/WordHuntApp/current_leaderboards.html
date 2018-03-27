@@ -1,0 +1,44 @@
+{% extends 'WordHuntApp/base.html' %}
+{% load staticfiles %}
+
+{% block title_body %}
+	- Leaderboards
+{% endblock %}
+
+{% block head_block %}
+	<link href="{% static 'css/current_leaderboards_style.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body_block %}
+	<h1 class="lineheight">Current Competition Leaderboards</h1>
+	<br />
+	<h3>Current word: {{ word }}</h3>
+	<table class="table table-bordered">
+		<tr class="leaderboards-top">
+			<td><center>Name</center></td>
+			<td class="leaderboards-image"><center>Image</center></td>
+			<td class="leaderboards-rating"><center>Rating</center></td>
+		</tr>
+		<!-- if the users shown have uploaded any pictures (have to participate to show up so the image should exist)
+			show that image in the rectangle to keep the corect shape -->
+		{% if images %}
+			{% for image in images %}
+				<tr>
+					<td><center>{{image.user}}</center></td>
+					<td>
+						<div class="thumbnail">
+						<a href="{% url 'word' image.user image.related_word %}">
+							<div class="ratio" style="background-image:url('{{ MEDIA_URL}}{{ image.uploaded_image }}')" 
+								alt="{{image.user}}'s Picture for this competition">
+							</div>
+						</a>
+						</div>
+					</td>
+					<td><center>{{image.avg_rating}}</center></td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+	</table>
+
+	<a href="{% url 'main' %}">Return to the main page</a> 
+{% endblock %}

@@ -13,6 +13,7 @@
 
 {% block body_block %}
 	<div class="row">
+	<!-- users profile sub nav bar -->
 		<div class="col-xs-4"><h1 class="lineheight">{{userprofile}}'s Profile</h1></div>
 		<div class="col-xs-8">
 			<span class="right_layout">
@@ -28,6 +29,7 @@
 		</div>
 	</div>
 	<div class="row">
+	<!-- show all pictures which the user has ever uploaded in the rectangular boxes to keep the correct layout -->
 		{% for image in images %}
 			<div class="col-xs-4">
 				<div class="thumbnail">
@@ -48,17 +50,5 @@
 		{% endif %}
 	</div>
 
-<!-- USING AJAX(?). First check if there is more than 12 pictures. If yes create a pagination button and when clicked reload pictures starting from the next group-->
-<!-- FINISH THIS			
-	<center>
-		<ul class="pagination">
-			<li><a href="PART 1">1</a></li>
-			<li><a href="PART 2">2</a></li>
-			<li><a href="PART 3">3</a></li>
-			<li><a href="PART 4">4</a></li>
-			<li><a href="PART 5">5</a></li>
-		</ul>			
-	</center>
--->
 	<a href="{% url 'main' %}">Return to the main page</a> 
 {% endblock %}
