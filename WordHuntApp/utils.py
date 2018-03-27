@@ -5,6 +5,7 @@ from registration.signals import user_registered
 from django.core.signals import request_finished
 from django.dispatch import receiver
 
+
 def get_current_word():
     competition = Competition.objects.latest('start_date')
     word = competition.word
@@ -33,8 +34,8 @@ def _convert_from_dms_to_dd(coords):
 def get_image_coordinates(path):
     image = open(path, 'rb')
     exif_tags = exifread.process_file(image, details=False)
+    # Try to get GPS coordinates from EXIF data
     try:
-        print(exif_tags)
         latitude_ref = exif_tags["GPS GPSLatitudeRef"]
         longitude_ref = exif_tags["GPS GPSLongitudeRef"]
         latitude = exif_tags["GPS GPSLatitude"]
@@ -55,12 +56,14 @@ def get_image_coordinates(path):
 
     return lat_dd, long_dd
 
+
 def calculate_new_average_rating(image):
     image_ratings = Rating.objects.filter(image=image)
     image.avg_rating = sum(r.rating for r in image_ratings) / len(image_ratings)
     image.save()
 
     update_competition_ranks()
+
 
 def update_competition_ranks():
     word = get_current_word()
@@ -74,17 +77,20 @@ def update_competition_ranks():
     except Image.DoesNotExist:
         print("No images yet for competition '%s'" % word.text)
 
+
 def search_for_users(query):
     results = []
     for user in UserProfile.objects.all():
         if query in str(user).lower(): results.append(user)
     return results
-	
+
+
 def search_for_words(query):
     results = []
     for word in Word.objects.all():
         if query in str(word).lower(): results.append(word)
     return results
+
 
 def get_number_of_user_images(user_profiles):
     numbers = []
@@ -92,12 +98,14 @@ def get_number_of_user_images(user_profiles):
         numbers.append(len(Image.objects.filter(user=user_profile.user)))
     return numbers
 
+# Create a new UserProfile object for each newly registered user
 @receiver(user_registered)
 def create_new_user_profile(sender, **kwargs):
     user = kwargs["user"]
     user_profile = UserProfile.objects.create(user=user,
                                               rank=get_last_rank())
     print("New user successfully registered")
+
 
 def get_last_rank():
     return len(UserProfile.objects.all()) + 1

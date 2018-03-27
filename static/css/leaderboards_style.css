@@ -1,4 +1,6 @@
-.leaderboards-top {background-color: #c9ff99;}
+.leaderboards-top {background-color: #c9ff99; text-align: center;}
+
+.leaderboards { text-align: center; }
 	
 .leaderboards-rank {width: 10%}
 

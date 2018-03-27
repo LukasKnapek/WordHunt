@@ -93,6 +93,7 @@ class Command(BaseCommand):
 
         # Get the winning entries and fetch the corresponding users
         winning_entries = Image.objects.filter(related_word=word).order_by("-avg_rating")[:awarded_positions]
+        # Award winners
         for position, entry in enumerate(winning_entries, 1):
             winner = UserProfile.objects.get(user=entry.user)
             winner.total_points += points_per_winner;

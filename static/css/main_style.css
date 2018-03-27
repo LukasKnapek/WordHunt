@@ -8,3 +8,12 @@
 	background-position: center center;
 	background-size: cover;
 }
+
+#time_left {
+    font-size: 15px;
+    float: right;
+}
+
+.thumbnail {
+    text-align: center;
+}

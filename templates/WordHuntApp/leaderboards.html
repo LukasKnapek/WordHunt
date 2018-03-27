@@ -16,18 +16,18 @@
 
 	<table class="table table-bordered">
 		<tr class="leaderboards-top">
-			<td class="leaderboards-rank"><center>Rank</center></td>
-			<td><center>Name</center></td>
-			<td class="leaderboards-pictures"><center>Number of Pictures Uploaded</center></td>
-			<td class="leaderboards-points"><center>Points</center></td>
+			<td class="leaderboards-rank">Rank</td>
+			<td class="leaderboards-name">Name</td>
+			<td class="leaderboards-pictures">Number of Pictures Uploaded</td>
+			<td class="leaderboards-points">Points</td>
 		</tr>
 		{% if results %}
 			{% for user, number in results %}
-				<tr>
-					<td><center>{{user.rank}}</center></td>
+				<tr class="leaderboards">
+					<td>{{user.rank}}</td>
 					<td><a href="{% url 'stats' user %}">{{user}}</a></td>
-					<td><center>{{number}}</center></td>
-					<td><center>{{user.total_points}}</center></td>
+					<td>{{number}}</td>
+					<td>{{user.total_points}}</td>
 				</tr>
 			{% endfor %}
 		{% endif %}

@@ -11,7 +11,7 @@
 			<h1 class="lineheight">Current Word: {{ word }}</h1>
 		</div>
 		<div class="col-xs-4">
-			<div style="font-size: 15px; float: right;">Ends in: {{ hours_left }} hours, {{ minutes_left }} minutes</div>
+			<div id="time_left">Ends in: {{ hours_left }} hours, {{ minutes_left }} minutes</div>
 		</div>
 	</div>
 	<hr>
@@ -25,9 +25,7 @@
 						<div class="ratio" style="background-image:url('{{ MEDIA_URL}}{{ image.uploaded_image }}')">
 						</div>
 					</a>
-					<center>
-						<a href="{% url 'stats' image.user %}">{{image.user}}</a>
-					</center>
+					<a href="{% url 'stats' image.user %}">{{image.user}}</a>
 				</div>
 			</div>
 			{% endfor %}

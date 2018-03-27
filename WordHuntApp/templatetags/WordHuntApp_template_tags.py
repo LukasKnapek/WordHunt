@@ -9,6 +9,7 @@ def get_user_list():
     dict = {'users':user_list}
     return dict
 
+# Check whether the given user participates and return the corresponding text to be shown
 @register.simple_tag(takes_context=True)
 def participation_text(context):
     user = context["user"]
@@ -16,7 +17,7 @@ def participation_text(context):
     if participates: return 'Entry Submitted'
     else: return 'Entry NOT Submitted'
 
-
+# Check whether the given user participates and return the corresponding color to be shown
 @register.simple_tag(takes_context=True)
 def participation_color(context):
     user = context["user"]

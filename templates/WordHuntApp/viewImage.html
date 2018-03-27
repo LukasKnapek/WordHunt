@@ -11,6 +11,9 @@
     <script src="{% static 'js/rate.js' %}"></script>
     <link href="{% static 'css/rateit.css' %}" rel="stylesheet">
     <link href="{% static 'css/viewImage_style.css' %}" rel="stylesheet">
+    <script src="{% static 'js/google_maps_callback.js' %}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap"></script>
+    <link rel="stylesheet" href="{% static 'css/map_style.css' %}">
 {% endblock %}
 
 {% block body_block %}
@@ -62,11 +65,8 @@
 		<b>Image location</b><br/>
 		{% if latitude and longitude %}
 			<div id="map"></div>
-			<script href="{% static 'js/viewImage_script.js' %}">			  
-			</script>
-			<script async defer
-				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
-			</script>
+			<div id="latitude">{{ latitude }}</div>
+            <div id="longitude">{{ longitude }}</div>
 		{% else %}
 			<p>No location provided.</p>
 		{% endif %}
@@ -74,8 +74,8 @@
 		<!-- comment section -->
 		<div class="col-xs-8">
 			<b>Comments</b>
-			<div class="media border" style="border: 1px solid black; overflow-y:auto; height:250px; margin-top:0px;">
-				<div class="media-body" style="padding: 5px">
+			<div class="media-border">
+				<div class="media-body">
 				  {% for comment in comments %}
 						<h4 class="media-heading">{{ comment.user }} <small><i> on {{ comment.creation_date }} </i></small></h4>
       					<p>- {{ comment.text }}</p>

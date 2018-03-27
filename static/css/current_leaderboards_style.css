@@ -8,6 +8,6 @@
 	background-position: center center;
 	background-size: cover;
 }
-.leaderboards-top {background-color: #c9ff99;}
-.leaderboards-image {width: 50%}
+.leaderboards-top {background-color: #c9ff99; text-align: center}
+.leaderboards-image {width: 20%;}
 .leaderboards-rating {width: 15px;}

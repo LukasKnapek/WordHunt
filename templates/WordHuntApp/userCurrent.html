@@ -8,12 +8,9 @@
 
 {% block head_block %}
     <script src="{% static 'js/img_upload.js' %}"></script>
-    <style id="map-style">
-      #map {
-        height: 500px;
-        width: 500px;
-       }
-    </style>
+    <script src="{% static 'js/google_maps_callback.js' %}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap"></script>
+    <link rel="stylesheet" href="{% static 'css/map_style.css' %}">
 {% endblock %}
 
 
@@ -58,11 +55,8 @@
                     <h3><span style="margin-left: 2%">Location preview</span></h3><br>
                     {% if existing_image.latitude %}
                         <div id="map"></div>
-                        <script href="{% static 'js/userCurrent_script.js' %}">
-                        </script>
-                        <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwzxGvPpv2kOYDpBGvU2Nd4n8uhic1sO8&callback=initMap">
-                        </script>
+                        <div id="latitude">{{ existing_image.latitude }}</div>
+                        <div id="longitude">{{ existing_image.longitude }}</div>
                     {% else %}
                         No location provided.
                     {% endif %}

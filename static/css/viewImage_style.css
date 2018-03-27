@@ -16,3 +16,6 @@
 	background-position: center center;
 	background-size: cover;
 }
+
+.media-border { border: 1px solid black; overflow-y:auto; height:250px; margin-top:0px; }
+.media-body { padding: 5px; }
